@@ -1531,14 +1531,14 @@ function initHomeIntro() {
     })
     .fromTo(
       introSpacerBottom,
-      { width: isMobile ? "0em" : "2em" },
-      { width: isMobile ? "0em" : "1em", duration: 1 },
+      { width: isMobile ? "0em" : "0.5em" },
+      { width: isMobile ? "0em" : "2.8em", duration: 1 },
       0,
     )
     .fromTo(
       introSpacerTop,
-      { width: isMobile ? "0em" : "2.8em" },
-      { width: isMobile ? "0em" : "1em", duration: 1 },
+      { width: isMobile ? "0em" : "0.5em" },
+      { width: isMobile ? "0em" : "2em", duration: 1 },
       0,
     )
     .from(
