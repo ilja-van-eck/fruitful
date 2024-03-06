@@ -709,8 +709,10 @@ function initToolTips() {
 }
 function initHomeVideo() {
   let vid = document.getElementById("hero-vid");
-  vid.load();
-  vid.play();
+  vid.muted = true;
+  vid.play().catch((error) => {
+    console.error("Video play failed", error);
+  });
   setupTextTransitions("#hero-vid", timestamps);
 }
 function initSaveCalculator() {
