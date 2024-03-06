@@ -708,11 +708,11 @@ function initToolTips() {
   });
 }
 function initHomeVideo() {
-  let vid = document.getElementById("hero-vid");
-  vid.play().catch((error) => {
-    vid.load();
-    console.error("Video play failed", error);
-  });
+  // let vid = document.getElementById("hero-vid");
+  // vid.play().catch((error) => {
+  //   vid.load();
+  //   console.error("Video play failed", error);
+  // });
   setupTextTransitions("#hero-vid", timestamps);
 }
 function initSaveCalculator() {
