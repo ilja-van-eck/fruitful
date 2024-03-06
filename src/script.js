@@ -709,8 +709,8 @@ function initToolTips() {
 }
 function initHomeVideo() {
   let vid = document.getElementById("hero-vid");
-  vid.muted = true;
   vid.play().catch((error) => {
+    vid.load();
     console.error("Video play failed", error);
   });
   setupTextTransitions("#hero-vid", timestamps);
@@ -1493,7 +1493,8 @@ function initGoalsScroll() {
 function initHomeIntro() {
   //if (isMobile) return;
   let introText = document.querySelector("[data-intro-text]");
-  let introSpacers = introText.querySelectorAll(".intro-spacer");
+  let introSpacerTop = introText.querySelector(".intro-spacer.is--top");
+  let introSpacerBottom = introText.querySelector(".intro-spacer.is--bottom");
   let introImageTop = document.querySelector(".intro-image__top");
   let introImageBottom = document.querySelector(".intro-image__bottom");
   let lottieTop = introImageTop.querySelector("[data-lottie]");
@@ -1528,7 +1529,18 @@ function initHomeIntro() {
       },
       defaults: { ease: "expo.inOut", duration: 1 },
     })
-    .from(introSpacers, { width: isMobile ? "0.3em" : "1em", duration: 1 }, 0)
+    .fromTo(
+      introSpacerBottom,
+      { width: isMobile ? "0em" : "2em" },
+      { width: isMobile ? "0em" : "1em", duration: 1 },
+      0,
+    )
+    .fromTo(
+      introSpacerTop,
+      { width: isMobile ? "0em" : "2.8em" },
+      { width: isMobile ? "0em" : "1em", duration: 1 },
+      0,
+    )
     .from(
       introImageTop,
       {
