@@ -709,6 +709,7 @@ function initToolTips() {
 }
 function initHomeVideo() {
   let vid = document.getElementById("hero-vid");
+  vid.load();
   vid.play();
   setupTextTransitions("#hero-vid", timestamps);
 }
