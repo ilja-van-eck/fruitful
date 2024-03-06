@@ -1,6 +1,7 @@
 //
 //
 // GLOBAL
+console.log("test");
 const isMobile = window.innerWidth < 480;
 const isMobileLandscape = window.innerWidth < 768;
 const timestamps = [0, 3, 6, 9, 12, 15, 18, 20, 22, 24];
