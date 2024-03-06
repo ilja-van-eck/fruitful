@@ -2648,7 +2648,7 @@ function initGuidesPage(next) {
   initGuidesOverlay(next);
   initImgScroll();
   toggleTextBlocks(next);
-  initStackGuidanceAnimations();
+  initStackGuidanceAnimations(next);
   initGoalsScroll();
   initBlueSections();
 }
