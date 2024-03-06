@@ -1233,7 +1233,7 @@ function initGuidesOverlay(next) {
       overlayItems.forEach((item) => item.classList.remove("is--active"));
       activeItem.classList.add("is--active");
       const overlayName = activeItem.getAttribute("data-overlay-name");
-      overlayCta.textContent = overlayName;
+      //overlayCta.textContent = overlayName;
 
       if (overlayPrevNameElement)
         overlayPrevNameElement.textContent = prevItemName;
@@ -1328,7 +1328,7 @@ function initGuidesOverlay(next) {
       const tlIn = gsap.timeline({
         onStart: () => {
           const overlayName = newActiveItem.getAttribute("data-overlay-name");
-          overlayCta.textContent = overlayName;
+          //overlayCta.textContent = overlayName;
           updateAdjacentNames(newIndex);
         },
       });
