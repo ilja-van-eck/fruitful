@@ -13,6 +13,8 @@ let closeMenu;
 let ranHomeLoader = false;
 let generalFlag = false;
 let mobileMenuOpen = false;
+let dropdownOpen = false;
+let dropdownClick = false;
 const lottieAnimations = [
   "https://uploads-ssl.webflow.com/659f15a242e58eb40c8cf14b/65cdf88239dc5b5eeb090c11_Leaf%2003.json",
   "https://uploads-ssl.webflow.com/659f15a242e58eb40c8cf14b/65cdf882765a69af7c1dee90_Leaf%2002.json",
@@ -449,12 +451,22 @@ function initNavScroll() {
   let lastScrollTop = 0;
   const buffer = 10;
 
+  let ddToggle = document.querySelector(".dd-toggle");
+  if (!dropdownClick) {
+    ddToggle.addEventListener("click", function () {
+      dropdownOpen = !dropdownOpen;
+    });
+  }
+
   window.addEventListener(
     "scroll",
     () => {
       let scrollTop = window.scrollY || document.documentElement.scrollTop;
 
       if (Math.abs(scrollTop - lastScrollTop) > buffer) {
+        if (dropdownOpen) {
+          ddToggle.click();
+        }
         if (scrollTop > lastScrollTop) {
           gsap.to(navFadeElements, {
             autoAlpha: 0,
