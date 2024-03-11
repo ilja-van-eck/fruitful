@@ -208,6 +208,7 @@ function initHomeLoader() {
           main.classList.remove("is--transitioning");
           ScrollTrigger.refresh();
           ranHomeLoader = true;
+          localStorage.setItem('loaderShown', 'true');
         },
         onStart: () => {
           initHomeVideo();
@@ -246,6 +247,7 @@ function initHomeLoader() {
         stagger: 0.15,
         ease: "back.out(4)",
         duration: 0.6,
+        clearProps: "all",
       },
       ">-=1",
     );
@@ -1151,7 +1153,7 @@ function initHomeHero(next) {
     .timeline({
       scrollTrigger: {
         trigger: triggerElement,
-        start: "bottom bottom",
+        start: isMobile ? "bottom 85%" : "bottom bottom",
         end: "bottom center",
         scrub: true,
       },
@@ -2730,7 +2732,7 @@ barba.init({
       afterEnter(data) {
         let next = data.next.container;
         let name = data.next.namespace;
-        if (ranHomeLoader === true) {
+        if (ranHomeLoader === true || ) {
           transitionIn(next, name);
         } else {
           initHomeLoader();
