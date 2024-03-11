@@ -208,7 +208,7 @@ function initHomeLoader() {
           main.classList.remove("is--transitioning");
           ScrollTrigger.refresh();
           ranHomeLoader = true;
-          localStorage.setItem('loaderShown', 'true');
+          localStorage.setItem("loaderShown", "true");
         },
         onStart: () => {
           initHomeVideo();
@@ -2732,7 +2732,7 @@ barba.init({
       afterEnter(data) {
         let next = data.next.container;
         let name = data.next.namespace;
-        if (ranHomeLoader === true || ) {
+        if (ranHomeLoader === true || localStorage.getItem("loaderShown")) {
           transitionIn(next, name);
         } else {
           initHomeLoader();
