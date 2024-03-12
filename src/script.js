@@ -498,6 +498,15 @@ function initNavScroll() {
 }
 function initDocumentClick() {
   if (generalFlag === true) return;
+
+  let ddLinks = document.querySelectorAll(".dd-link");
+  let ddButton = document.querySelector(".dd-toggle");
+  ddLinks.forEach(link, function () {
+    link.addEventListener("click", function () {
+      ddButton.click();
+    });
+  });
+
   document.addEventListener("click", function (event) {
     generalFlag = true;
     if (event.target.classList.contains("lottie-player")) return;
