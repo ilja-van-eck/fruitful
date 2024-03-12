@@ -501,7 +501,7 @@ function initDocumentClick() {
 
   let ddLinks = document.querySelectorAll(".dd-link");
   let ddButton = document.querySelector(".dd-toggle");
-  ddLinks.forEach(link, function () {
+  ddLinks.forEach((link) => {
     link.addEventListener("click", function () {
       ddButton.click();
     });
