@@ -1883,7 +1883,7 @@ function initHomeParallax() {
   const treeRight = trigger.querySelector('[data-parallax="tree-right"]');
   const people = trigger.querySelector('[data-parallax="people"]');
   const bLeft = trigger.querySelector('[data-parallax="b-left"]');
-  const bRight = trigger.querySelector('[data-parallax="b-right"]');
+  const bRight = document.querySelector('[data-parallax="b-right"]');
   const bg = trigger.querySelector('[data-parallax="bg"]');
 
   const textWrapper = document.querySelector('[data-parallax="text"]');
