@@ -1088,6 +1088,25 @@ function initHeadlines(container) {
       );
       createScrollTrigger(element, tl);
     });
+
+  let faqItems = container.querySelectorAll(".faq-item");
+  if (!faqItems) return;
+
+  faqItems.forEach(function (element, index) {
+    let tl = gsap.timeline({ paused: true });
+    tl.fromTo(
+      element,
+      { opacity: 0, yPercent: 50, rotate: 3 },
+      {
+        opacity: 1,
+        rotate: 0,
+        yPercent: 0,
+        duration: 0.5,
+        ease: "back.out(3)",
+      },
+    );
+    createScrollTrigger(element, tl);
+  });
 }
 
 //
@@ -1109,6 +1128,7 @@ function initMobileSliders() {
   });
   const guideNav = document.querySelectorAll(".g-nav__item");
   guideNav[2].classList.add("active");
+
   guideNav.forEach((item, index) => {
     item.addEventListener("click", function () {
       guideNav.forEach((nav) => nav.classList.remove("active"));
@@ -1116,10 +1136,63 @@ function initMobileSliders() {
       guidesMobile.slideTo(index);
     });
   });
+  var activeGuide = document.querySelector(".g-card.swiper-slide-active");
+  var guideImg = activeGuide.querySelector("img");
+  var guideVid = activeGuide.querySelector("video");
+  gsap.to(guideImg, {
+    opacity: 0,
+    duration: 0.2,
+    ease: "power2",
+  });
+  gsap.to(guideVid, {
+    opacity: 1,
+    duration: 0.2,
+    ease: "power2",
+    onComplete: () => {
+      guideVid.play();
+    },
+  });
+  guidesMobile.on("beforeSlideChangeStart", function () {
+    var activeSlide = document.querySelector(".g-card.swiper-slide-active");
+    var activeImg = activeSlide.querySelector("img");
+    var activeVid = activeSlide.querySelector("video");
+
+    gsap.to(activeImg, {
+      opacity: 1,
+      duration: 0.2,
+      ease: "power2",
+    });
+    gsap.to(activeVid, {
+      opacity: 0,
+      duration: 0.2,
+      ease: "power2",
+      onComplete: () => {
+        activeVid.pause();
+      },
+    });
+  });
   guidesMobile.on("slideChangeTransitionEnd", function () {
     guideNav.forEach((nav) => nav.classList.remove("active"));
     const activeIndex = guidesMobile.activeIndex;
     guideNav[activeIndex].classList.add("active");
+
+    var activeSlide = document.querySelector(".g-card.swiper-slide-active");
+    var activeImg = activeSlide.querySelector("img");
+    var activeVid = activeSlide.querySelector("video");
+
+    gsap.to(activeImg, {
+      opacity: 0,
+      duration: 0.2,
+      ease: "power2",
+    });
+    gsap.to(activeVid, {
+      opacity: 1,
+      duration: 0.2,
+      ease: "power2",
+      onComplete: () => {
+        activeVid.play();
+      },
+    });
   });
 
   const membersMobile = new Swiper(".t-card__wrap", {
@@ -1134,6 +1207,60 @@ function initMobileSliders() {
         init: false,
       },
     },
+  });
+  var activeMember = document.querySelector(".t-card.swiper-slide-active");
+  var memberImg = activeMember.querySelector("img");
+  var memberVid = activeMember.querySelector("video");
+  gsap.to(memberImg, {
+    opacity: 0,
+    duration: 0.2,
+    ease: "power2",
+  });
+  gsap.to(memberVid, {
+    opacity: 1,
+    duration: 0.2,
+    ease: "power2",
+    onComplete: () => {
+      memberVid.play();
+    },
+  });
+  membersMobile.on("beforeSlideChangeStart", function () {
+    var activeMember = document.querySelector(".t-card.swiper-slide-active");
+    var memberImg = activeMember.querySelector("img");
+    var memberVid = activeMember.querySelector("video");
+
+    gsap.to(memberImg, {
+      opacity: 1,
+      duration: 0.2,
+      ease: "power2",
+    });
+    gsap.to(memberVid, {
+      opacity: 0,
+      duration: 0.2,
+      ease: "power2",
+      onComplete: () => {
+        memberVid.pause();
+      },
+    });
+  });
+  membersMobile.on("slideChangeTransitionEnd", function () {
+    var activeMember = document.querySelector(".t-card.swiper-slide-active");
+    var memberImg = activeMember.querySelector("img");
+    var memberVid = activeMember.querySelector("video");
+
+    gsap.to(memberImg, {
+      opacity: 0,
+      duration: 0.2,
+      ease: "power2",
+    });
+    gsap.to(memberVid, {
+      opacity: 1,
+      duration: 0.2,
+      ease: "power2",
+      onComplete: () => {
+        memberVid.play();
+      },
+    });
   });
 }
 function initNavToggle() {
