@@ -451,7 +451,7 @@ function initBurgerMenu() {
 function initNavScroll() {
   const navFadeElements = document.querySelectorAll("[data-nav-fade]");
   let lastScrollTop = 0;
-  const buffer = 10;
+  const buffer = 25;
 
   let ddToggle = document.querySelector(".dd-toggle");
   if (!dropdownClick) {
@@ -1136,40 +1136,48 @@ function initMobileSliders() {
       guidesMobile.slideTo(index);
     });
   });
+
+  function playActiveVid(image, video) {
+    gsap.to(image, {
+      opacity: 0,
+      duration: 0.3,
+      ease: "power1.inOut",
+    });
+    gsap.to(video, {
+      opacity: 1,
+      duration: 0.3,
+      ease: "power1.inOut",
+      onComplete: () => {
+        video.play();
+      },
+    });
+  }
+  function pausePreviousVid(image, video) {
+    gsap.to(image, {
+      opacity: 1,
+      duration: 0.3,
+      ease: "power1.inOut",
+    });
+    gsap.to(video, {
+      opacity: 0,
+      duration: 0.3,
+      ease: "power1.inOut",
+      onComplete: () => {
+        video.pause();
+      },
+    });
+  }
+
   var activeGuide = document.querySelector(".g-card.swiper-slide-active");
   var guideImg = activeGuide.querySelector("img");
   var guideVid = activeGuide.querySelector("video");
-  gsap.to(guideImg, {
-    opacity: 0,
-    duration: 0.2,
-    ease: "power2",
-  });
-  gsap.to(guideVid, {
-    opacity: 1,
-    duration: 0.2,
-    ease: "power2",
-    onComplete: () => {
-      guideVid.play();
-    },
-  });
+  playActiveVid(guideImg, guideVid);
+
   guidesMobile.on("beforeSlideChangeStart", function () {
     var activeSlide = document.querySelector(".g-card.swiper-slide-active");
     var activeImg = activeSlide.querySelector("img");
     var activeVid = activeSlide.querySelector("video");
-
-    gsap.to(activeImg, {
-      opacity: 1,
-      duration: 0.2,
-      ease: "power2",
-    });
-    gsap.to(activeVid, {
-      opacity: 0,
-      duration: 0.2,
-      ease: "power2",
-      onComplete: () => {
-        activeVid.pause();
-      },
-    });
+    pausePreviousVid(activeImg, activeVid);
   });
   guidesMobile.on("slideChangeTransitionEnd", function () {
     guideNav.forEach((nav) => nav.classList.remove("active"));
@@ -1179,20 +1187,7 @@ function initMobileSliders() {
     var activeSlide = document.querySelector(".g-card.swiper-slide-active");
     var activeImg = activeSlide.querySelector("img");
     var activeVid = activeSlide.querySelector("video");
-
-    gsap.to(activeImg, {
-      opacity: 0,
-      duration: 0.2,
-      ease: "power2",
-    });
-    gsap.to(activeVid, {
-      opacity: 1,
-      duration: 0.2,
-      ease: "power2",
-      onComplete: () => {
-        activeVid.play();
-      },
-    });
+    playActiveVid(activeImg, activeVid);
   });
 
   const membersMobile = new Swiper(".t-card__wrap", {
@@ -1211,56 +1206,19 @@ function initMobileSliders() {
   var activeMember = document.querySelector(".t-card.swiper-slide-active");
   var memberImg = activeMember.querySelector("img");
   var memberVid = activeMember.querySelector("video");
-  gsap.to(memberImg, {
-    opacity: 0,
-    duration: 0.2,
-    ease: "power2",
-  });
-  gsap.to(memberVid, {
-    opacity: 1,
-    duration: 0.2,
-    ease: "power2",
-    onComplete: () => {
-      memberVid.play();
-    },
-  });
+  playActiveVid(memberImg, memberVid);
+
   membersMobile.on("beforeSlideChangeStart", function () {
     var activeMember = document.querySelector(".t-card.swiper-slide-active");
     var memberImg = activeMember.querySelector("img");
     var memberVid = activeMember.querySelector("video");
-
-    gsap.to(memberImg, {
-      opacity: 1,
-      duration: 0.2,
-      ease: "power2",
-    });
-    gsap.to(memberVid, {
-      opacity: 0,
-      duration: 0.2,
-      ease: "power2",
-      onComplete: () => {
-        memberVid.pause();
-      },
-    });
+    pausePreviousVid(memberImg, memberVid);
   });
   membersMobile.on("slideChangeTransitionEnd", function () {
     var activeMember = document.querySelector(".t-card.swiper-slide-active");
     var memberImg = activeMember.querySelector("img");
     var memberVid = activeMember.querySelector("video");
-
-    gsap.to(memberImg, {
-      opacity: 0,
-      duration: 0.2,
-      ease: "power2",
-    });
-    gsap.to(memberVid, {
-      opacity: 1,
-      duration: 0.2,
-      ease: "power2",
-      onComplete: () => {
-        memberVid.play();
-      },
-    });
+    playActiveVid(memberImg, memberVid);
   });
 }
 function initNavToggle() {
