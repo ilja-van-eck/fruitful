@@ -127,7 +127,9 @@ function transitionIn(next, name) {
         ease: "back.out(4)",
         duration: 0.5,
       });
-      controlTimeline("[data-cards-wrap]", "play");
+      if (name === "guidance") {
+        controlTimeline("[data-cards-wrap]", "play");
+      }
     });
   }
 }
