@@ -734,11 +734,6 @@ function initToolTips() {
   });
 }
 function initHomeVideo() {
-  // let vid = document.getElementById("hero-vid");
-  // vid.play().catch((error) => {
-  //   vid.load();
-  //   console.error("Video play failed", error);
-  // });
   let target;
   if (isMobile) {
     target = document.querySelector("#hero-vid-mobile");
@@ -748,7 +743,7 @@ function initHomeVideo() {
   setupTextTransitions(target, timestamps);
 }
 function setupTextTransitions(videoSelector, timestamps) {
-  const video = document.querySelector(videoSelector);
+  const video = videoSelector;
   const texts = document.querySelectorAll("[data-home-sub] p");
   const duration = 0.4;
   let lastTime = 0;
@@ -2807,6 +2802,7 @@ barba.hooks.enter((data) => {
 
 barba.init({
   preventRunning: true,
+  debug: true,
   prevent: function ({ el }) {
     return el.hasAttribute("data-barba-prevent");
   },
