@@ -739,10 +739,16 @@ function initHomeVideo() {
   //   vid.load();
   //   console.error("Video play failed", error);
   // });
-  setupTextTransitions("#hero-vid", timestamps);
+  let target;
+  if (isMobile) {
+    target = document.querySelector("#hero-vid-mobile");
+  } else {
+    target = document.querySelector("#hero-vid-desktop");
+  }
+  setupTextTransitions(target, timestamps);
 }
 function setupTextTransitions(videoSelector, timestamps) {
-  const videos = document.querySelectorAll(videoSelector);
+  const video = document.querySelector(videoSelector);
   const texts = document.querySelectorAll("[data-home-sub] p");
   const duration = 0.4;
   let lastTime = 0;
@@ -758,26 +764,24 @@ function setupTextTransitions(videoSelector, timestamps) {
     onComplete: () => gsap.set(texts[0], { autoAlpha: 1 }),
   });
 
-  videos.forEach(video, function () {
-    video.addEventListener("timeupdate", () => {
-      const currentTime = video.currentTime;
+  video.addEventListener("timeupdate", () => {
+    const currentTime = video.currentTime;
 
-      if (currentTime < lastTime) {
-        transitionTexts(currentIndex, 0);
-        currentIndex = 0;
-      } else {
-        const nextIndex = timestamps.findIndex(
-          (time, index) => currentTime >= time && index > currentIndex,
-        );
+    if (currentTime < lastTime) {
+      transitionTexts(currentIndex, 0);
+      currentIndex = 0;
+    } else {
+      const nextIndex = timestamps.findIndex(
+        (time, index) => currentTime >= time && index > currentIndex,
+      );
 
-        if (nextIndex !== -1 && nextIndex !== currentIndex) {
-          transitionTexts(currentIndex, nextIndex);
-          currentIndex = nextIndex;
-        }
+      if (nextIndex !== -1 && nextIndex !== currentIndex) {
+        transitionTexts(currentIndex, nextIndex);
+        currentIndex = nextIndex;
       }
+    }
 
-      lastTime = currentTime;
-    });
+    lastTime = currentTime;
   });
 
   function transitionTexts(fromIndex, toIndex) {
