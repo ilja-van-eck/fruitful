@@ -741,6 +741,82 @@ function initHomeVideo() {
   // });
   setupTextTransitions("#hero-vid", timestamps);
 }
+function setupTextTransitions(videoSelector, timestamps) {
+  const videos = document.querySelectorAll(videoSelector);
+  const texts = document.querySelectorAll("[data-home-sub] p");
+  const duration = 0.4;
+  let lastTime = 0;
+  let currentIndex = 0;
+
+  gsap.set(texts, { autoAlpha: 0 });
+  gsap.to(texts[0].querySelectorAll(".word"), {
+    autoAlpha: 1,
+    y: "0em",
+    stagger: 0.01,
+    duration: duration,
+    ease: "back.out(1)",
+    onComplete: () => gsap.set(texts[0], { autoAlpha: 1 }),
+  });
+
+  videos.forEach(video, function () {
+    video.addEventListener("timeupdate", () => {
+      const currentTime = video.currentTime;
+
+      if (currentTime < lastTime) {
+        transitionTexts(currentIndex, 0);
+        currentIndex = 0;
+      } else {
+        const nextIndex = timestamps.findIndex(
+          (time, index) => currentTime >= time && index > currentIndex,
+        );
+
+        if (nextIndex !== -1 && nextIndex !== currentIndex) {
+          transitionTexts(currentIndex, nextIndex);
+          currentIndex = nextIndex;
+        }
+      }
+
+      lastTime = currentTime;
+    });
+  });
+
+  function transitionTexts(fromIndex, toIndex) {
+    gsap.fromTo(
+      texts[fromIndex].querySelectorAll(".word"),
+      {
+        autoAlpha: 1,
+        y: "0em",
+      },
+      {
+        autoAlpha: 0,
+        y: "-1em",
+        stagger: prefersReducedMotion() ? 0 : 0.025,
+        duration: duration,
+        ease: "power3.out",
+        onComplete: () => {
+          //gsap.set(texts[fromIndex], { autoAlpha: 0, y: "1em" });
+          gsap.set(texts[fromIndex].querySelectorAll(".word"), {
+            autoAlpha: 0,
+            y: "1em",
+          });
+        },
+      },
+    );
+    gsap.fromTo(
+      texts[toIndex].querySelectorAll(".word"),
+      { y: "1em", autoAlpha: 0 },
+      {
+        y: "0em",
+        autoAlpha: 1,
+        stagger: prefersReducedMotion() ? 0 : 0.025,
+        delay: 0.1,
+        duration: duration,
+        ease: "back.out(1.5)",
+        onStart: () => gsap.set(texts[toIndex], { autoAlpha: 1 }),
+      },
+    );
+  }
+}
 function initSaveCalculator() {
   const FRUITFUL_ANNUAL_MEMBERSHIP = 1000;
   const FRUITFUL_APY = 5.0;
@@ -2333,80 +2409,7 @@ function initPriceCards(next) {
   });
   wrap = null;
 }
-function setupTextTransitions(videoSelector, timestamps) {
-  const video = document.querySelector(videoSelector);
-  const texts = document.querySelectorAll("[data-home-sub] p");
-  const duration = 0.4;
-  let lastTime = 0;
-  let currentIndex = 0;
 
-  gsap.set(texts, { autoAlpha: 0 });
-  gsap.to(texts[0].querySelectorAll(".word"), {
-    autoAlpha: 1,
-    y: "0em",
-    stagger: 0.01,
-    duration: duration,
-    ease: "back.out(1)",
-    onComplete: () => gsap.set(texts[0], { autoAlpha: 1 }),
-  });
-
-  video.addEventListener("timeupdate", () => {
-    const currentTime = video.currentTime;
-
-    if (currentTime < lastTime) {
-      transitionTexts(currentIndex, 0);
-      currentIndex = 0;
-    } else {
-      const nextIndex = timestamps.findIndex(
-        (time, index) => currentTime >= time && index > currentIndex,
-      );
-
-      if (nextIndex !== -1 && nextIndex !== currentIndex) {
-        transitionTexts(currentIndex, nextIndex);
-        currentIndex = nextIndex;
-      }
-    }
-
-    lastTime = currentTime;
-  });
-
-  function transitionTexts(fromIndex, toIndex) {
-    gsap.fromTo(
-      texts[fromIndex].querySelectorAll(".word"),
-      {
-        autoAlpha: 1,
-        y: "0em",
-      },
-      {
-        autoAlpha: 0,
-        y: "-1em",
-        stagger: prefersReducedMotion() ? 0 : 0.025,
-        duration: duration,
-        ease: "power3.out",
-        onComplete: () => {
-          //gsap.set(texts[fromIndex], { autoAlpha: 0, y: "1em" });
-          gsap.set(texts[fromIndex].querySelectorAll(".word"), {
-            autoAlpha: 0,
-            y: "1em",
-          });
-        },
-      },
-    );
-    gsap.fromTo(
-      texts[toIndex].querySelectorAll(".word"),
-      { y: "1em", autoAlpha: 0 },
-      {
-        y: "0em",
-        autoAlpha: 1,
-        stagger: prefersReducedMotion() ? 0 : 0.025,
-        delay: 0.1,
-        duration: duration,
-        ease: "back.out(1.5)",
-        onStart: () => gsap.set(texts[toIndex], { autoAlpha: 1 }),
-      },
-    );
-  }
-}
 //
 //
 // GUIDES
