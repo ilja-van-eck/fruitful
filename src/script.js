@@ -3,6 +3,7 @@
 // GLOBAL
 const isMobile = window.innerWidth < 480;
 const isMobileLandscape = window.innerWidth < 768;
+const isDesktop = window.innerWidth > 991;
 const timestamps = [0, 3, 6, 9, 12, 15, 18, 20, 22, 24];
 const loadWrap = document.querySelector(".load-w");
 const pageOverlay = document.querySelector(".page-overlay");
@@ -1641,14 +1642,14 @@ function initHomeIntro() {
     })
     .fromTo(
       introSpacerBottom,
-      { width: isMobile ? "0em" : "0.5em" },
-      { width: isMobile ? "0em" : "2.8em", duration: 1 },
+      { width: isDesktop ? "0.5em" : "0em" },
+      { width: isDesktop ? "2.8em" : "0em", duration: 1 },
       0,
     )
     .fromTo(
       introSpacerTop,
-      { width: isMobile ? "0em" : "0.5em" },
-      { width: isMobile ? "0em" : "2em", duration: 1 },
+      { width: isDesktop ? "0.5em" : "0em" },
+      { width: isDesktop ? "2em" : "0em", duration: 1 },
       0,
     )
     .from(
