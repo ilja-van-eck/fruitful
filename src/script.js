@@ -16,6 +16,8 @@ let generalFlag = false;
 let mobileMenuOpen = false;
 let dropdownOpen = false;
 let dropdownClick = false;
+let globalMuteState = false;
+let globalPlayState = true;
 const lottieAnimations = [
   "https://uploads-ssl.webflow.com/659f15a242e58eb40c8cf14b/65cdf88239dc5b5eeb090c11_Leaf%2003.json",
   "https://uploads-ssl.webflow.com/659f15a242e58eb40c8cf14b/65cdf882765a69af7c1dee90_Leaf%2002.json",
@@ -1186,6 +1188,59 @@ function initHeadlines(container) {
     createScrollTrigger(element, tl);
   });
 }
+function initVideoControls(container) {
+  if (!container) {
+    container = document.querySelector('[data-barba="container"]');
+  }
+  const videoContainers = container.querySelectorAll("[data-video-controls]");
+  const playButton = container.querySelectorAll(".play-button-icon");
+  const soundButton = container.querySelectorAll(".sound-button-icon");
+
+  if (!globalPlayState) {
+    playButton.forEach((button) => {
+      button.classList.add("active");
+    });
+  }
+  if (!globalMuteState) {
+    console.log("sound muted");
+    soundButton.forEach((button) => {
+      button.classList.add("muted");
+    });
+  }
+
+  videoContainers.forEach((container) => {
+    const video = container.querySelector("video");
+    const autoplay = container.getAttribute("data-video-controls");
+
+    if (!autoplay) {
+      video.addEventListener("click", () => {
+        if (video.paused) {
+          video.play();
+          playButton.forEach((button) => {
+            button.classList.remove("active");
+          });
+          globalPlayState = true;
+        } else {
+          video.pause();
+          playButton.forEach((button) => {
+            button.classList.add("active");
+          });
+          globalPlayState = false;
+        }
+      });
+    }
+
+    soundButton.forEach((button) => {
+      button.addEventListener("click", () => {
+        video.muted = !video.muted;
+        globalMuteState = video.muted;
+        soundButton.forEach((button) => {
+          button.classList.toggle("muted");
+        });
+      });
+    });
+  });
+}
 
 //
 //
@@ -1414,7 +1469,10 @@ function initGuidesOverlay(next) {
       );
 
       const video = activeItem.querySelector("video");
-      video.play();
+      if (globalPlayState) {
+        video.muted = globalMuteState;
+        video.play();
+      }
 
       overlayItems.forEach((item) => item.classList.remove("is--active"));
       activeItem.classList.add("is--active");
@@ -1509,7 +1567,10 @@ function initGuidesOverlay(next) {
     }
 
     function animateInNewActiveItem() {
-      newVideo.play();
+      if (globalPlayState) {
+        newVideo.muted = globalMuteState;
+        newVideo.play();
+      }
       const yInitialMovement = direction === "next" ? "1rem" : "-1rem";
       const tlIn = gsap.timeline({
         onStart: () => {
@@ -1624,15 +1685,23 @@ function initMemberStories() {
     if (videoElement.getAttribute("src") !== videoSrc) {
       videoElement.src = videoSrc;
       videoElement.load();
+      if (!globalPlayState) {
+        videoElement.oncanplay = () => {
+          videoElement.pause();
+        };
+      }
     } else {
-      videoElement.play();
-      videoElement.muted = false;
+      if (globalPlayState) {
+        videoElement.muted = globalMuteState;
+        videoElement.play();
+      }
     }
-
-    videoElement.oncanplay = () => {
-      videoElement.play();
-      videoElement.muted = false;
-    };
+    if (globalPlayState) {
+      videoElement.oncanplay = () => {
+        videoElement.muted = globalMuteState;
+        videoElement.play();
+      };
+    }
 
     document.querySelectorAll("[data-modal-close]").forEach((closeElement) => {
       closeElement.addEventListener("click", function () {
@@ -2729,6 +2798,7 @@ function initGeneral(container) {
   initNavScroll();
   initCursorAndButtons(container);
   initToolTips();
+  initVideoControls(container);
   if (!prefersReducedMotion()) {
     initDocumentClick();
     setTimeout(() => {
