@@ -8,6 +8,7 @@ const loadWrap = document.querySelector(".load-w");
 const pageOverlay = document.querySelector(".page-overlay");
 const loadBg = loadWrap.querySelector(".load-bg");
 const navW = document.querySelector(".nav-w");
+
 let titleLines;
 let closeMenu;
 let ranHomeLoader = false;
