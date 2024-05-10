@@ -2287,7 +2287,7 @@ function initStackSaveAnimations(next) {
       trigger: stackSave,
       start: "top center",
       end: "top bottom",
-      onEnter: () => playLottieAnimationsStaggered(lottieAnimations, 1),
+      onEnter: () => playLottieAnimationsStaggered(lottieAnimations, 0.2),
     },
   });
 }
