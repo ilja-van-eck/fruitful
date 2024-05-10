@@ -2870,6 +2870,7 @@ function initSaveInvest(next) {
   initVideoScroll(next);
   initInvestCards();
   initScrollingTitles(next);
+  initStackSaveAnimations(next);
   setTimeout(() => {
     initStackInvestAnimations(next);
   }, 800);
