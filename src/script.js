@@ -2262,6 +2262,35 @@ function initStackGuidanceAnimations(next) {
     },
   });
 }
+function initStackSaveAnimations(next) {
+  if (!next) {
+    next = document.querySelector('[data-barba="container"]');
+  }
+  let stackSave = next.querySelector("[data-stack-save]");
+  if (!stackSave) return;
+  let lottieElements = stackSave.querySelectorAll("[data-lottie]");
+  let lottieAnimations = [];
+
+  lottieElements.forEach((elem) => {
+    let animation = lottie.loadAnimation({
+      container: elem,
+      renderer: "svg",
+      loop: false,
+      autoplay: false,
+      path: elem.getAttribute("data-lottie-path"),
+    });
+    lottieAnimations.push(animation);
+  });
+
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: stackSave,
+      start: "top center",
+      end: "top bottom",
+      onEnter: () => playLottieAnimationsStaggered(lottieAnimations, 1),
+    },
+  });
+}
 function initStackInvestAnimations(next) {
   if (!next) {
     next = document.querySelector('[data-barba="container"]');
@@ -2818,6 +2847,7 @@ function initHome(next) {
   initGuidesOverlay(next);
   initHomeParallax();
   initStackGuidanceAnimations(next);
+  initStackSaveAnimations(next);
   initStackInvestAnimations(next);
   initPriceCards(next);
   initPricingScroll();
