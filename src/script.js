@@ -1229,7 +1229,6 @@ function initVideoControls(container) {
     });
   }
   if (!globalMuteState) {
-    console.log("sound muted");
     soundButton.forEach((button) => {
       button.classList.add("muted");
     });
@@ -2930,7 +2929,6 @@ barba.hooks.enter((data) => {
 
 barba.init({
   preventRunning: true,
-  debug: true,
   prevent: function ({ el }) {
     return el.hasAttribute("data-barba-prevent");
   },
