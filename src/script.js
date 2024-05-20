@@ -1,6 +1,33 @@
-//
-//
 // GLOBAL
+gsap.registerPlugin(ScrollTrigger, CustomEase);
+const timestamps = [0, 1.5, 3, 4.5, 6, 7.5, 9, 10.5, 12, 13.5];
+let lenis;
+if (Webflow.env("editor") === undefined) {
+  lenis = new Lenis();
+
+  $("[data-lenis-start]").on("click", function () {
+    lenis.start();
+  });
+  $("[data-lenis-stop]").on("click", function () {
+    lenis.stop();
+  });
+  $("[data-lenis-toggle]").on("click", function () {
+    $(this).toggleClass("stop-scroll");
+    if ($(this).hasClass("stop-scroll")) {
+      lenis.stop();
+    } else {
+      lenis.start();
+    }
+  });
+
+  lenis.on("scroll", ScrollTrigger.update);
+
+  gsap.ticker.add((time) => {
+    lenis.raf(time * 1000);
+  });
+
+  gsap.ticker.lagSmoothing(0);
+}
 const isMobile = window.innerWidth < 480;
 const isMobileLandscape = window.innerWidth < 768;
 const isDesktop = window.innerWidth > 991;
@@ -2287,7 +2314,7 @@ function initStackSaveAnimations(next) {
       trigger: stackSave,
       start: "top center",
       end: "top bottom",
-      onEnter: () => playLottieAnimationsStaggered(lottieAnimations, 0.2),
+      onEnter: () => playLottieAnimationsStaggered(lottieAnimations, 0.15),
     },
   });
 }
