@@ -769,6 +769,7 @@ function initHomeVideo() {
   } else {
     target = document.querySelector("#hero-vid-desktop");
   }
+  if (!target) return;
   setupTextTransitions(target, timestamps);
 }
 function setupTextTransitions(videoSelector, timestamps) {
@@ -1272,7 +1273,7 @@ function initVideoControls(container) {
 //
 //HOME
 function initMobileSliders() {
-  const guidesMobile = new Swiper(".g-card__wrap", {
+  const guidesMobile = new Swiper(".g-card__wrap.swiper", {
     slidesPerView: "auto",
     spaceBetween: 0,
     centeredSlides: true,
@@ -1396,13 +1397,22 @@ function initNavToggle() {
 }
 function initHomeHero(next) {
   if (prefersReducedMotion()) return;
-
   if (!next) {
     next = document.querySelector('[data-barba="container"]');
   }
+  let isIllustrated;
+  let fern;
+  let orange;
+  if (next.querySelector(".full-hero__bg")) {
+    isIllustrated = true;
+  }
   let triggerElement = next.querySelector('[data-home-hero="trigger"]');
   let bgElement = triggerElement.querySelector('[data-home-hero="bg"]');
-  gsap
+  if (isIllustrated) {
+    fern = next.querySelector(".full-hero__fern");
+    orange = next.querySelector(".full-hero__orange");
+  }
+  let tl = gsap
     .timeline({
       scrollTrigger: {
         trigger: triggerElement,
@@ -1419,6 +1429,8 @@ function initHomeHero(next) {
       },
       0,
     );
+
+  tl.to(fern, { yPercent: -5, xPercent: -5 }, 0).to(orange, { yPercent: 5 }, 0);
 }
 function initGuidesOverlay(next) {
   if (!next) {
@@ -1478,6 +1490,9 @@ function initGuidesOverlay(next) {
           "<",
         );
 
+      if (index > 5) {
+        index = index - 6;
+      }
       const prevIndex = index === 0 ? overlayItems.length - 1 : index - 1;
       const nextIndex = index === overlayItems.length - 1 ? 0 : index + 1;
 
@@ -1750,9 +1765,10 @@ function initMemberStories() {
     });
   }
 }
-function initGoalsScroll() {
+function initGoalsScroll(next) {
   if (prefersReducedMotion()) return;
-  let wrap = document.querySelector(".goals-wrap");
+  next = next || document;
+  let wrap = next.querySelector(".goals-wrap");
   let cards = wrap.querySelectorAll(".goals-card");
   gsap
     .timeline({
@@ -1771,9 +1787,33 @@ function initGoalsScroll() {
       rotate: () => Math.random() * 24 - 12,
     });
 }
+function initGuidesCollage(next) {
+  if (prefersReducedMotion()) return;
+  next = next || document;
+  let wrap = next.querySelector(".guides-collage");
+  if (!wrap) return;
+  let cards = wrap.querySelectorAll(".g-card");
+  gsap
+    .timeline({
+      scrollTrigger: {
+        trigger: wrap,
+        start: "top 80%",
+        toggleActions: "play none none reverse",
+      },
+    })
+    .from(cards, {
+      top: "30%",
+      left: "42%",
+      ease: "back.out(2)",
+      duration: 0.8,
+      stagger: { each: 0.05, from: "end" },
+      rotate: () => Math.random() * 24 - 12,
+    });
+}
 function initHomeIntro() {
   //if (isMobile) return;
   let introText = document.querySelector("[data-intro-text]");
+  if (!introText) return;
   let introSpacerTop = introText.querySelector(".intro-spacer.is--top");
   let introSpacerBottom = introText.querySelector(".intro-spacer.is--bottom");
   let introImageTop = document.querySelector(".intro-image__top");
@@ -1849,6 +1889,108 @@ function initHomeIntro() {
       0.1,
     );
 }
+function initBushCTA(next) {
+  next = next || document;
+  if (isMobile) return;
+  let wrap = next.querySelector(".bush-cta");
+  if (!wrap) return;
+  let cardLeft = wrap.querySelector(".bush-cta__card.is--left");
+  let cardRight = wrap.querySelector(".bush-cta__card.is--right");
+  let butterflyLeft = wrap.querySelector(".bush-cta__butterfly.is--left");
+  let butterflyRight = wrap.querySelector(".bush-cta__butterfly.is--right");
+  let anim = wrap.querySelector("[data-lottie]");
+
+  let animation = lottie.loadAnimation({
+    container: anim,
+    renderer: "svg",
+    loop: false,
+    autoplay: false,
+    path: anim.getAttribute("data-lottie-path"),
+  });
+
+  const scrollTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: wrap,
+      start: "top bottom",
+      end: "bottom top",
+      scrub: true,
+    },
+    defaults: { ease: "linear", duration: 1 },
+  });
+  scrollTl
+    .fromTo(
+      butterflyLeft,
+      { y: "5em", xPercent: -100 },
+      { y: "-1em", xPercent: 25 },
+    )
+    .fromTo(
+      butterflyRight,
+      { y: "10em", xPercent: 100 },
+      { y: "-4em", xPercent: -100 },
+      "<",
+    );
+
+  const introTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: wrap,
+      start: "center bottom",
+      toggleActions: "play none none reverse",
+    },
+    defaults: { ease: "back.out(1.8)", duration: 0.6 },
+    onStart: () => {
+      gsap.delayedCall(0.5, () => {
+        animation.play();
+      });
+    },
+    onReverseComplete: () => {
+      animation.goToAndStop(0, true);
+    },
+  });
+  introTl
+    .from(cardLeft, { scale: 0.85, rotate: 2, xPercent: 10 })
+    .from(cardRight, { scale: 0.85, rotate: -2, xPercent: -10 }, "<");
+}
+function initHomeSliders(next) {
+  next = next || document;
+  let introSlider = next.querySelector(".swiper.is--intro__cards");
+  let stepsSlider = next.querySelector(".swiper.is--steps__cards");
+  if (introSlider) {
+    const introSwiper = new Swiper(introSlider, {
+      spaceBetween: 16,
+      slidesPerView: "auto",
+      centeredSlides: true,
+      slideToClickedSlide: true,
+      speed: 800,
+      pagination: {
+        el: ".pagination.is--intro__cards",
+        type: "bullets",
+      },
+    });
+    if (!isMobileLandscape) {
+      introSwiper.destroy(true, true);
+      lenis.resize();
+      ScrollTrigger.refresh();
+    }
+  }
+  if (stepsSlider) {
+    const stepsSwiper = new Swiper(stepsSlider, {
+      spaceBetween: 16,
+      slidesPerView: "auto",
+      centeredSlides: true,
+      slideToClickedSlide: true,
+      speed: 800,
+      pagination: {
+        el: ".pagination.is--steps__cards",
+        type: "bullets",
+      },
+    });
+    if (!isMobileLandscape) {
+      stepsSwiper.destroy(true, true);
+      lenis.resize();
+      ScrollTrigger.refresh();
+    }
+  }
+}
 function initVideoOnHover() {
   if (supportsTouch()) {
     return;
@@ -1892,7 +2034,7 @@ function initVideoOnHover() {
     });
   });
 }
-function createCardWrapTimeline(cardWrap) {
+function createCardWrapTimeline(cardWrap, rotation) {
   const tl = gsap.timeline({
     paused: true,
     defaults: {
@@ -1906,10 +2048,10 @@ function createCardWrapTimeline(cardWrap) {
 
   tl.fromTo(
     cardWrap.querySelectorAll("[data-card]"),
-    { yPercent: (i) => 100 + 10 * i, rotate: (i) => 2 * (i + 2) },
+    { yPercent: (i) => 50 + 10 * i, rotate: (i) => 2 * (i + 2) },
     {
       yPercent: 0,
-      rotate: (i) => Math.random() * 6 - 3,
+      rotate: rotation ? (i) => Math.random() * 6 - 3 : 0,
       stagger: 0.075,
       overwrite: "true",
       onStart: () =>
@@ -1925,12 +2067,15 @@ function createCardWrapTimeline(cardWrap) {
 
   return tl;
 }
-function initCardsIntro() {
+function initCardsIntro(next) {
   if (prefersReducedMotion()) return;
-  const cardWraps = document.querySelectorAll("[data-cards-wrap]");
+  next = next || document;
+  const cardWraps = next.querySelectorAll("[data-cards-wrap]");
 
   cardWraps.forEach((cardWrap, index) => {
-    const tl = createCardWrapTimeline(cardWrap);
+    const isStatic = cardWrap.getAttribute("data-cards-wrap") === "static";
+    const rotation = !isStatic;
+    const tl = createCardWrapTimeline(cardWrap, rotation);
     cardWrapTimelines.set(cardWrap, tl);
 
     ScrollTrigger.create({
@@ -1939,7 +2084,6 @@ function initCardsIntro() {
       toggleActions: "play none none reverse",
       onEnter: () => tl.play(),
       onLeaveBack: () => tl.reverse(),
-      //onRefresh: (self) => self.progress === 1 && tl.reverse(),
     });
   });
 }
@@ -1947,6 +2091,8 @@ function initCardsHover() {
   const cards = document.querySelectorAll("[data-card]");
   cards.forEach((card) => {
     const originalZIndex = card.style.zIndex || 0;
+    const isStatic = card.getAttribute("data-card") === "static";
+    if (isStatic === true) return;
     const video = card.querySelector("video");
     const image = card.querySelector("img");
 
@@ -2347,10 +2493,10 @@ function initStackInvestAnimations(next) {
   });
 }
 function initPricingScroll() {
-  if (prefersReducedMotion()) return;
-  if (window.innerWidth < 768) return;
+  if (prefersReducedMotion() || window.innerWidth < 768) return;
   ScrollTrigger.refresh();
   const section = document.querySelector("[data-pricing-section]");
+  if (!section) return;
   const textWrap = section.querySelector("[data-pricing-heading]");
   const heading = textWrap.querySelector("h3");
   const eyebrow = section.querySelector(".eyebrow");
@@ -2500,6 +2646,15 @@ function initPriceCards(next) {
       ".p-card__eyebrow .eyebrow",
       {
         yPercent: -100,
+        duration: 0.5,
+        ease: "back.inOut(2)",
+      },
+      0,
+    )
+    .to(
+      ".p-card__sign.offset",
+      {
+        left: "0em",
         duration: 0.5,
         ease: "back.inOut(2)",
       },
@@ -2864,20 +3019,23 @@ function initGeneral(container) {
 function initHome(next) {
   initHomeHero(next);
   initNavToggle();
+  initHomeSliders(next);
   if (isMobile) initMobileSliders();
   initHomeIntro();
+  initBushCTA(next);
   initVideoOnHover();
   initStackingNav();
   initCardsIntro();
   initCardsHover();
   initGuidesOverlay(next);
+  initGuidesCollage(next);
   initHomeParallax();
   initStackGuidanceAnimations(next);
   initStackSaveAnimations(next);
   initStackInvestAnimations(next);
   initPriceCards(next);
   initPricingScroll();
-  initGoalsScroll();
+  initGoalsScroll(next);
   initMemberStories();
 }
 function initGuidesPage(next) {
@@ -2958,7 +3116,11 @@ barba.init({
       afterEnter(data) {
         let next = data.next.container;
         let name = data.next.namespace;
-        if (ranHomeLoader === true || localStorage.getItem("loaderShown")) {
+        if (
+          ranHomeLoader === true ||
+          localStorage.getItem("loaderShown") ||
+          next.hasAttribute("data-no-loader")
+        ) {
           transitionIn(next, name);
         } else {
           initHomeLoader();
