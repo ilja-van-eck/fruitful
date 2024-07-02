@@ -1,5 +1,6 @@
 // GLOBAL
 gsap.registerPlugin(ScrollTrigger, CustomEase);
+console.log("test");
 const timestamps = [0, 1.5, 3, 4.5, 6, 7.5, 9, 10.5, 12, 13.5];
 let lenis;
 if (Webflow.env("editor") === undefined) {
