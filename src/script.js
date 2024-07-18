@@ -1,6 +1,5 @@
 // GLOBAL
 gsap.registerPlugin(ScrollTrigger, CustomEase);
-console.log("test");
 const timestamps = [0, 1.5, 3, 4.5, 6, 7.5, 9, 10.5, 12, 13.5];
 let lenis;
 if (Webflow.env("editor") === undefined) {
@@ -859,11 +858,11 @@ function initSaveCalculator() {
     },
     {
       comparison: "Apple<sup>3</sup>",
-      apy: 4.25,
+      apy: 4.4,
     },
     {
       comparison: "Natl Avg<sup>*</sup>",
-      apy: 0.46,
+      apy: 0.36,
     },
     {
       comparison: "Chase<sup>3</sup>",
