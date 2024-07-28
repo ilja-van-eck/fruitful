@@ -751,6 +751,7 @@ function initToolTips() {
       const tooltip = wrapper.querySelector(".tooltip");
       if (tooltip) {
         tooltip.classList.add("active");
+        tooltip.parentElement.style.zIndex = 4;
       }
     });
 
@@ -758,6 +759,7 @@ function initToolTips() {
       const tooltip = wrapper.querySelector(".tooltip");
       if (tooltip) {
         tooltip.classList.remove("active");
+        tooltip.parentElement.style.zIndex = 3;
       }
     });
   });
@@ -2999,6 +3001,104 @@ function initScrollingTitles(next) {
     },
   });
 }
+function initInvestCharts(next) {
+  if (!next) {
+    next = document.querySelector('[data-barba="container"]');
+  }
+  let container = next.querySelector('[data-chart="container"]');
+  let content = container.querySelector('[data-chart="content"]');
+  let risk = container.querySelector('[data-chart="risk"]');
+  let coreButton = container.querySelector('[data-chart="core"]');
+  let esgButton = container.querySelector('[data-chart="esg"]');
+  let input = container.querySelector('[data-chart="input"]');
+
+  const portfolios = {
+    core: [
+      [24, 2, 2, 24, 26, 22], // risk 1
+      [30, 3, 3, 20, 24, 20], // risk 2
+      [36, 4, 4, 18, 20, 18], // risk 3...
+      [42, 5, 5, 15, 18, 15],
+      [48, 6, 6, 15, 15, 10],
+      [54, 8, 6, 10, 12, 10],
+      [58, 10, 8, 9, 9, 6],
+      [64, 12, 8, 5, 6, 5],
+      [68, 14, 10, 2, 4, 2],
+      [72, 16, 12, 0, 0, 0],
+    ],
+    esg: [
+      [24, 2, 2, 22, 22, 28], // risk 1
+      [31, 3, 2, 18, 18, 28], // risk 2
+      [37, 4, 3, 16, 16, 24], // risk 3...
+      [43, 5, 4, 15, 15, 18],
+      [50, 6, 4, 13, 13, 15],
+      [56, 7, 5, 10, 10, 12],
+      [62, 8, 6, 8, 8, 8],
+      [67, 9, 8, 5, 5, 6],
+      [72, 12, 8, 2, 2, 4],
+      [72, 16, 12, 0, 0, 0],
+    ],
+  };
+
+  let currentPortfolio = "core";
+
+  function updateChart() {
+    const riskLevel = input.value - 1;
+    const allocations = portfolios[currentPortfolio][riskLevel];
+    const bars = container.querySelectorAll(".bar");
+    const values = container.querySelectorAll(".bar-value");
+
+    bars.forEach((bar, index) => {
+      if (currentPortfolio === "core" && index === 3) {
+        return;
+      }
+
+      let allocationIndex = index;
+      if (currentPortfolio === "core" && index > 3) {
+        allocationIndex = index - 1;
+      }
+
+      let scaleValue = allocations[allocationIndex] / 100;
+      bar.style.transform = `scaleX(${scaleValue})`;
+      values[index].textContent = `${allocations[allocationIndex]}%`;
+    });
+
+    const aggregateBond = container.querySelector('[data-bar="aggregate"]');
+    const internationalBond = container.querySelector(
+      '[data-bar="international-bonds"]',
+    );
+
+    if (currentPortfolio === "core") {
+      aggregateBond.style.display = "none";
+      internationalBond.style.display = isMobile ? "flex" : "grid";
+    } else {
+      aggregateBond.style.display = isMobile ? "flex" : "grid";
+      internationalBond.style.display = "none";
+    }
+  }
+
+  coreButton.addEventListener("click", () => {
+    if (currentPortfolio === "core") return;
+    esgButton.classList.remove("is--active");
+    coreButton.classList.add("is--active");
+    currentPortfolio = "core";
+    updateChart();
+  });
+
+  esgButton.addEventListener("click", () => {
+    if (currentPortfolio === "esg") return;
+    esgButton.classList.add("is--active");
+    coreButton.classList.remove("is--active");
+    currentPortfolio = "esg";
+    updateChart();
+  });
+
+  input.oninput = function () {
+    updateChart();
+    risk.innerHTML = this.value;
+  };
+
+  updateChart();
+}
 
 //
 //
@@ -3151,6 +3251,7 @@ barba.init({
         initGeneral(next);
         //
         initInvestCalculator();
+        initInvestCharts(next);
         initSaveInvest(next);
       },
     },
