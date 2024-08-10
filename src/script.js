@@ -96,7 +96,10 @@ function transitionIn(next, name) {
   if (!name) {
     name = next.getAttribute("data-barba-namespace");
   }
-  const desiredTheme = name === "home" ? "light" : "dark";
+  let desiredTheme = name === "home" ? "light" : "dark";
+  const pageTheme = next.getAttribute("data-nav");
+  if (pageTheme) { desiredTheme = pageTheme }
+
   navW.removeAttribute("theme");
   setTimeout(() => {
     navW.setAttribute("theme", desiredTheme);
@@ -193,7 +196,11 @@ function initHomeLoader() {
   });
 
   main.classList.add("is--transitioning");
-  navW.setAttribute("theme", "light");
+  let navTheme = main.getAttribute("data-nav")
+  if (navTheme) {
+    navW.setAttribute("theme", navTheme);
+  }
+
 
   gsap.set(body, { cursor: "wait" });
   gsap.set(bar, { display: "flex" });
@@ -1385,17 +1392,19 @@ function initMobileSliders() {
 }
 function initNavToggle() {
   const navToggleEl = document.querySelector("[data-nav-toggle]");
-
-  ScrollTrigger.create({
-    trigger: navToggleEl,
-    start: "top top",
-    onEnter: () => {
-      navW.setAttribute("theme", "dark");
-    },
-    onLeaveBack: () => {
-      navW.setAttribute("theme", "light");
-    },
-  });
+  if (navToggleEl) {
+    ScrollTrigger.create({
+      trigger: navToggleEl,
+      start: "top top",
+      markers: true,
+      onEnter: () => {
+        navW.setAttribute("theme", "dark");
+      },
+      onLeaveBack: () => {
+        navW.setAttribute("theme", "light");
+      },
+    });
+  }
 }
 function initHomeHero(next) {
   if (prefersReducedMotion()) return;
@@ -3318,7 +3327,7 @@ barba.hooks.enter((data) => {
 });
 
 barba.init({
-  debug: true,
+  //debug: true,
   preventRunning: true,
   prevent: function ({ el }) {
     return el.hasAttribute("data-barba-prevent");
