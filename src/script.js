@@ -1107,11 +1107,11 @@ function initInvestCalculator() {
     const YEARS = 10;
     const withoutFees =
       (amt + ANNUAL_CONTRIBUTION / ANNUAL_RETURN) *
-        Math.pow(1 + ANNUAL_RETURN, YEARS) -
+      Math.pow(1 + ANNUAL_RETURN, YEARS) -
       ANNUAL_CONTRIBUTION / ANNUAL_RETURN;
     const withFees =
       (amt + ANNUAL_CONTRIBUTION / (ANNUAL_RETURN - fee)) *
-        Math.pow(1 + (ANNUAL_RETURN - fee), YEARS) -
+      Math.pow(1 + (ANNUAL_RETURN - fee), YEARS) -
       ANNUAL_CONTRIBUTION / (ANNUAL_RETURN - fee);
     return withoutFees - withFees;
   }
@@ -3099,6 +3099,133 @@ function initInvestCharts(next) {
 
   updateChart();
 }
+//
+//
+// CASH CARD PAGE
+function initHowItWorks(next) {
+  if (!next) {
+    next = document.querySelector('[data-barba="container"]');
+  }
+  let wrap = next.querySelector(".cash-container")
+  let firstScroll = wrap.querySelector('.full-height')
+  let heading = wrap.querySelector(".h-med")
+  let floatingIcons = wrap.querySelectorAll(".fund-top__icon")
+  let topCard = wrap.querySelector(".fund-top")
+  let paths = wrap.querySelectorAll(".step-path__item")
+  let percentages = wrap.querySelectorAll(".fund-percent")
+  let cards = wrap.querySelectorAll('[data-fund-card]')
+
+  let textCardOne = wrap.querySelector(".cash-text__card.is--1")
+  let textCardTwo = wrap.querySelector(".cash-text__card.is--2")
+
+  let introTl = gsap.timeline({
+    defaults: {
+      ease: "linear",
+      duration: true
+    },
+    scrollTrigger: {
+      trigger: firstScroll,
+      start: "top 45%",
+      end: "bottom 10%",
+      scrub: true,
+      //markers: true
+    }
+  })
+
+  introTl.fromTo(heading,
+    {
+      fontSize: "13.75em",
+      y: "-100vh"
+    },
+    {
+      fontSize: "3.2em",
+      y: "0vh"
+    }
+  ).fromTo(floatingIcons,
+    {
+      y: gsap.utils.wrap(["-85vh", "-78vh", "-80vh", "-90vh",]),
+      x: gsap.utils.wrap(["-40vw", "-20vw", "5vw", "25vw",]),
+      rotate: gsap.utils.wrap([-150, -35, 90, 175]),
+      scale: 1.85,
+    },
+    {
+      y: "0vh",
+      x: "0vw",
+      rotate: 0,
+      scale: 1,
+      duration: 0.95
+    },
+    0.05
+  )
+
+  let scrollTl = gsap.timeline({
+    defaults: {
+      ease: "linear",
+      duration: true
+    },
+    scrollTrigger: {
+      trigger: ".cash-inner",
+      start: "top 10%",
+      endTrigger: wrap,
+      end: "bottom bottom+=50%",
+      scrub: true,
+    }
+  })
+  scrollTl.fromTo(paths,
+    {
+      strokeDashoffset: gsap.utils.wrap([130, 220, 310, 400])
+    },
+    {
+      strokeDashoffset: 0,
+      stagger: 0.1
+    }
+  )
+    .fromTo(percentages,
+      {
+        scale: 0,
+      },
+      {
+        scale: 1,
+        stagger: 0.25,
+        duration: 0.2
+      },
+      0.5
+    )
+    .fromTo(cards, {
+      x: "-2em",
+      autoAlpha: 0
+    }, {
+      x: "0em",
+      autoAlpha: 1,
+      stagger: 0.15,
+      duration: 0.2
+    }, 0.6)
+    .fromTo(textCardOne, { yPercent: 0, autoAlpha: 1 }, { yPercent: -25, autoAlpha: 0, duration: 0.2 }, 0.6)
+    .fromTo(textCardTwo, { yPercent: 25, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.2 }, 0.7)
+
+  gsap.to(".cloud-bg", { xPercent: -15, ease: "linear", duration: 1, scrollTrigger: { trigger: ".cash-container", start: "top bottom", end: "bottom top", scrub: true } })
+}
+function initCashHero(next) {
+  let triggerElement = next.querySelector('[data-home-hero="trigger"]');
+  let bgElement = triggerElement.querySelector('[data-home-hero="bg"]');
+  let tl = gsap
+    .timeline({
+      scrollTrigger: {
+        trigger: triggerElement,
+        start: isMobile ? "bottom 85%" : "bottom bottom",
+        end: "bottom center",
+        scrub: true,
+      },
+    })
+    .to(triggerElement, { scale: 0.95 }, 0)
+    .from(
+      bgElement,
+      {
+        borderRadius: "0rem, 0rem, 0rem, 0rem",
+      },
+      0,
+    );
+}
 
 //
 //
@@ -3160,6 +3287,10 @@ function initSaveInvest(next) {
     initStackInvestAnimations(next);
   }, 800);
 }
+function initCashPage(next) {
+  initCashHero(next)
+  initHowItWorks(next)
+}
 
 barba.hooks.after((data) => {
   $(data.next.container).removeClass("fixed");
@@ -3187,6 +3318,7 @@ barba.hooks.enter((data) => {
 });
 
 barba.init({
+  debug: true,
   preventRunning: true,
   prevent: function ({ el }) {
     return el.hasAttribute("data-barba-prevent");
@@ -3273,6 +3405,16 @@ barba.init({
         initGeneral(next);
         //
         initGuidesPage(next);
+      },
+    },
+    {
+      namespace: "cash",
+      afterEnter(data) {
+        let next = data.next.container;
+        transitionIn(next);
+        initGeneral(next);
+        //
+        initCashPage(next)
       },
     },
   ],
