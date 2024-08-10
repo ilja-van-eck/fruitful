@@ -1396,7 +1396,6 @@ function initNavToggle() {
     ScrollTrigger.create({
       trigger: navToggleEl,
       start: "top top",
-      markers: true,
       onEnter: () => {
         navW.setAttribute("theme", "dark");
       },
