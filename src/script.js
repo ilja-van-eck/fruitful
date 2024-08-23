@@ -98,7 +98,9 @@ function transitionIn(next, name) {
   }
   let desiredTheme = name === "home" ? "light" : "dark";
   const pageTheme = next.getAttribute("data-nav");
-  if (pageTheme) { desiredTheme = pageTheme }
+  if (pageTheme) {
+    desiredTheme = pageTheme;
+  }
 
   navW.removeAttribute("theme");
   setTimeout(() => {
@@ -196,11 +198,10 @@ function initHomeLoader() {
   });
 
   main.classList.add("is--transitioning");
-  let navTheme = main.getAttribute("data-nav")
+  let navTheme = main.getAttribute("data-nav");
   if (navTheme) {
     navW.setAttribute("theme", navTheme);
   }
-
 
   gsap.set(body, { cursor: "wait" });
   gsap.set(bar, { display: "flex" });
@@ -1114,11 +1115,11 @@ function initInvestCalculator() {
     const YEARS = 10;
     const withoutFees =
       (amt + ANNUAL_CONTRIBUTION / ANNUAL_RETURN) *
-      Math.pow(1 + ANNUAL_RETURN, YEARS) -
+        Math.pow(1 + ANNUAL_RETURN, YEARS) -
       ANNUAL_CONTRIBUTION / ANNUAL_RETURN;
     const withFees =
       (amt + ANNUAL_CONTRIBUTION / (ANNUAL_RETURN - fee)) *
-      Math.pow(1 + (ANNUAL_RETURN - fee), YEARS) -
+        Math.pow(1 + (ANNUAL_RETURN - fee), YEARS) -
       ANNUAL_CONTRIBUTION / (ANNUAL_RETURN - fee);
     return withoutFees - withFees;
   }
@@ -3114,62 +3115,78 @@ function initHowItWorks(next) {
   if (!next) {
     next = document.querySelector('[data-barba="container"]');
   }
-  let wrap = next.querySelector(".cash-container")
-  let firstScroll = wrap.querySelector('.full-height')
-  let heading = wrap.querySelector(".h-med")
-  let floatingIcons = wrap.querySelectorAll(".fund-top__icon")
-  let topCard = wrap.querySelector(".fund-top")
-  let paths = wrap.querySelectorAll(".step-path__item")
-  let percentages = wrap.querySelectorAll(".fund-percent")
-  let cards = wrap.querySelectorAll('[data-fund-card]')
+  let wrap = next.querySelector(".cash-container");
+  let heading = wrap.querySelector(".h-med");
+  let floatingIcons = wrap.querySelectorAll(".fund-top__icon");
+  let topCard = wrap.querySelector(".fund-top");
+  let paths = wrap.querySelectorAll(".step-path__item");
+  let percentages = wrap.querySelectorAll(".fund-percent");
+  let cards = wrap.querySelectorAll("[data-fund-card]");
 
-  let textCardOne = wrap.querySelector(".cash-text__card.is--1")
-  let textCardTwo = wrap.querySelector(".cash-text__card.is--2")
+  let textCardOne = wrap.querySelector(".cash-text__card.is--1");
+  let textCardTwo = wrap.querySelector(".cash-text__card.is--2");
+
+  let sunraySection = wrap.querySelector(".sunray-w");
+  let topContent = wrap.querySelectorAll("[data-sun-remove]");
+  let sunrays = wrap.querySelectorAll(".sunray");
+  let sunElements = wrap.querySelectorAll("[data-sun-scale]");
+  let sunIcons = wrap.querySelectorAll(".sunray-icon");
+  let sunText = wrap.querySelectorAll("[data-sunray-text]");
 
   let introTl = gsap.timeline({
     defaults: {
       ease: "linear",
-      duration: true
+      duration: 1,
     },
     scrollTrigger: {
-      trigger: firstScroll,
+      trigger: wrap,
       start: "top 45%",
-      end: "bottom 10%",
+      endTrigger: ".cash-inner",
+      end: "top 10%",
       scrub: true,
-      //markers: true
-    }
-  })
+    },
+  });
 
-  introTl.fromTo(heading,
-    {
-      fontSize: "13.75em",
-      y: "-100vh"
-    },
-    {
-      fontSize: "3.2em",
-      y: "0vh"
-    }
-  ).fromTo(floatingIcons,
-    {
-      y: gsap.utils.wrap(["-85vh", "-78vh", "-80vh", "-90vh",]),
-      x: gsap.utils.wrap(["-40vw", "-20vw", "5vw", "25vw",]),
-      rotate: gsap.utils.wrap([-150, -35, 90, 175]),
-      scale: 1.85,
-    },
-    {
-      y: "0vh",
-      x: "0vw",
-      rotate: 0,
-      scale: 1,
-      duration: 0.95
-    },
-    0.05
-  )
+  introTl
+    .fromTo(
+      heading,
+      {
+        fontSize: isMobile ? "5em" : "13.75em",
+        opacity: 1,
+        y: "-100vh",
+      },
+      {
+        fontSize: "3.2em",
+        opacity: isMobile ? 0 : 1,
+        y: "0vh",
+      },
+    )
+    .fromTo(
+      floatingIcons,
+      {
+        y: isMobile
+          ? gsap.utils.wrap(["-85vh", "-100vh", "-75vh", "-90vh"])
+          : gsap.utils.wrap(["-85vh", "-78vh", "-80vh", "-90vh"]),
+        x: isMobile
+          ? gsap.utils.wrap(["-15vw", "-20vw", "15vw", "65vw"])
+          : gsap.utils.wrap(["-40vw", "-20vw", "5vw", "25vw"]),
+        rotate: gsap.utils.wrap([-150, -35, 90, 175]),
+        scale: 1.85,
+      },
+      {
+        y: "0vh",
+        x: "0vw",
+        rotate: 0,
+        scale: 1,
+        duration: 0.95,
+      },
+      0.05,
+    );
 
   let scrollTl = gsap.timeline({
     defaults: {
       ease: "linear",
-      duration: true
+      duration: 1,
     },
     scrollTrigger: {
       trigger: ".cash-inner",
@@ -3177,41 +3194,251 @@ function initHowItWorks(next) {
       endTrigger: wrap,
       end: "bottom bottom+=50%",
       scrub: true,
-    }
-  })
-  scrollTl.fromTo(paths,
-    {
-      strokeDashoffset: gsap.utils.wrap([130, 220, 310, 400])
     },
-    {
-      strokeDashoffset: 0,
-      stagger: 0.1
-    }
-  )
-    .fromTo(percentages,
+  });
+  scrollTl
+    .fromTo(
+      paths,
+      {
+        strokeDashoffset: gsap.utils.wrap([130, 220, 310, 400]),
+      },
+      {
+        strokeDashoffset: 0,
+        stagger: 0.1,
+      },
+    )
+    .fromTo(
+      percentages,
       {
         scale: 0,
       },
       {
         scale: 1,
-        stagger: 0.25,
-        duration: 0.2
+        stagger: 0.2,
+        duration: 0.2,
       },
-      0.5
+      0.5,
     )
-    .fromTo(cards, {
-      x: "-2em",
-      autoAlpha: 0
-    }, {
-      x: "0em",
-      autoAlpha: 1,
-      stagger: 0.15,
-      duration: 0.2
-    }, 0.6)
-    .fromTo(textCardOne, { yPercent: 0, autoAlpha: 1 }, { yPercent: -25, autoAlpha: 0, duration: 0.2 }, 0.6)
-    .fromTo(textCardTwo, { yPercent: 25, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.2 }, 0.7)
+    .fromTo(
+      cards,
+      {
+        x: "-2em",
+        autoAlpha: 0,
+      },
+      {
+        x: "0em",
+        autoAlpha: 1,
+        stagger: 0.15,
+        duration: 0.2,
+      },
+      0.6,
+    )
+    .fromTo(
+      textCardOne,
+      { yPercent: 0, autoAlpha: 1 },
+      { yPercent: -25, autoAlpha: 0, duration: 0.2 },
+      0.6,
+    )
+    .fromTo(
+      textCardTwo,
+      { yPercent: 25, autoAlpha: 0 },
+      { yPercent: 0, autoAlpha: 1, duration: 0.2 },
+      0.7,
+    )
+    .set(sunraySection, { display: "flex" }, 1.5)
+    .to(topContent, { opacity: 0, duration: 0.4 })
+    .from(sunrays, { scaleX: 0, duration: 0.6 }, ">-=0.1")
+    .from(
+      sunElements,
+      { scale: 0.3, opacity: 0, duration: 0.4, stagger: 0.1 },
+      "<-=0.2",
+    )
+    .from(sunIcons, { z: -2000, opacity: 0, stagger: 0.01, duration: 0.7 }, "<")
+    .from(
+      sunText,
+      { y: "2rem", autoAlpha: 0, duration: 0.2, stagger: 0.05 },
+      "<",
+    );
+  //.to(sunraySection, { opacity: 1, duration: 0.2 })
 
-  gsap.to(".cloud-bg", { xPercent: -15, ease: "linear", duration: 1, scrollTrigger: { trigger: ".cash-container", start: "top bottom", end: "bottom top", scrub: true } })
+  //
+  //
+  let secondScrollContainer = document.querySelector("[data-last-scroll]");
+  let secondSectionTexts =
+    secondScrollContainer.querySelectorAll(".cash-text__card");
+  let secondBg = secondScrollContainer.querySelector(".cloud-w");
+  let secondTopCard = secondScrollContainer.querySelector(".fund-top");
+  let secondPaths = secondScrollContainer.querySelectorAll(".step-path__item");
+  let secondPercentages =
+    secondScrollContainer.querySelectorAll(".fund-percent");
+  let secondCards = secondScrollContainer.querySelectorAll("[data-fund-card]");
+  let cashbackPills = secondScrollContainer.querySelectorAll(
+    "[data-fund-cashback]",
+  );
+
+  let anxietyLeaveTl = gsap.timeline({
+    defaults: {
+      ease: "linear",
+      duration: 1,
+    },
+    scrollTrigger: {
+      trigger: ".cash-container.is--short",
+      start: "top 70%",
+      end: "top top",
+      scrub: true,
+      pin: ".cash-container.is--first",
+      pinSpacing: false,
+    },
+  });
+  anxietyLeaveTl
+    .set([secondSectionTexts, secondBg], { autoAlpha: 0 })
+    .to(sunIcons, {
+      z: 800,
+      rotate: gsap.utils.random(-40, 40),
+      stagger: 0.01,
+      duration: 1.5,
+    })
+    .to(
+      sunText,
+      {
+        y: "-2rem",
+        autoAlpha: 0,
+        duration: 0.4,
+        stagger: 0.05,
+        delay: isMobile ? 0.2 : 0,
+      },
+      "<",
+    )
+    .to(sunrays, { scaleX: 0, duration: 1.2 }, "<")
+    .to(
+      sunElements,
+      { scale: 0.3, opacity: 0, duration: 0.4, stagger: 0.1 },
+      "<",
+    )
+    .fromTo(
+      secondCards,
+      {
+        x: "-2em",
+        autoAlpha: 0,
+      },
+      {
+        x: "0em",
+        autoAlpha: 1,
+        stagger: 0.15,
+        duration: 0.3,
+      },
+      ">-=0.1",
+    )
+    .fromTo(
+      secondSectionTexts[0],
+      { autoAlpha: 0, yPercent: 25 },
+      { autoAlpha: 1, yPercent: 0, duration: 0.5 },
+      "<",
+    );
+
+  let lastCashScroll = gsap.timeline({
+    defaults: {
+      ease: "linear",
+      duration: 1,
+    },
+    scrollTrigger: {
+      trigger: ".cash-container.is--short",
+      start: "top top",
+      end: "bottom bottom+=10%",
+      scrub: true,
+    },
+  });
+  lastCashScroll
+    .to(secondBg, { autoAlpha: 1, duration: 0.3 })
+    .from(secondTopCard, { x: "-2em", autoAlpha: 0, duration: 0.3 }, "<+=0.1")
+    .fromTo(
+      secondPaths,
+      {
+        strokeDashoffset: gsap.utils.wrap([130, 220, 310, 400]),
+      },
+      {
+        strokeDashoffset: 0,
+        stagger: 0.1,
+        duration: 0.6,
+      },
+      "<+=0.1",
+    )
+    .fromTo(
+      secondPercentages,
+      {
+        scale: 0,
+      },
+      {
+        scale: 1,
+        stagger: 0.1,
+        duration: 0.2,
+      },
+      "<+=0.2",
+    )
+    .to(
+      secondSectionTexts[0],
+      { autoAlpha: 0, yPercent: -25, duration: 0.3 },
+      "<-=50%",
+    )
+    .fromTo(
+      secondSectionTexts[1],
+      { autoAlpha: 0, yPercent: 25 },
+      { autoAlpha: 1, yPercent: 0, duration: 0.3 },
+      "<+=0.2",
+    )
+    .set(".fund-list.is--top", { display: "flex" }, "<")
+    .to(
+      secondCards,
+      { x: "2rem", autoAlpha: 0, stagger: 0.1, duration: 0.3 },
+      "<",
+    )
+    .fromTo(
+      "[data-cashback-card]",
+      { x: "-2rem", autoAlpha: 0 },
+      { x: "0rem", autoAlpha: 1, stagger: 0.1, duration: 0.3 },
+      "<+=0.2",
+    )
+    .to(
+      secondPercentages,
+      { scale: 0, duration: 0.2, stagger: { each: 0.05, from: "end" } },
+      ">+=0.5",
+    )
+    .to(
+      secondPaths,
+      {
+        strokeDashoffset: gsap.utils.wrap([-130, -220, -310, -400]),
+        duration: 0.2,
+        stagger: { each: 0.05, from: "end" },
+      },
+      "<",
+    )
+    .to(secondTopCard, { x: "2rem", autoAlpha: 0, duration: 0.2 }, "<+=0.16")
+    .to(
+      secondSectionTexts[1],
+      { autoAlpha: 0, yPercent: -25, duration: 0.3 },
+      "<+=0.5",
+    )
+    .fromTo(
+      secondSectionTexts[2],
+      { autoAlpha: 0, yPercent: 25 },
+      { autoAlpha: 1, yPercent: 0, duration: 0.3 },
+      "<+=0.2",
+    )
+    .from(cashbackPills, { scale: 0, duration: 0.2, stagger: 0.05 }, ">-=0.1")
+
+    .to(secondBg, { autoAlpha: 1, duration: 0.5 });
+
+  gsap.to(".cloud-bg", {
+    xPercent: -15,
+    ease: "linear",
+    duration: 1,
+    scrollTrigger: {
+      trigger: ".cash-container",
+      start: "top bottom",
+      end: "bottom top-=300%",
+      scrub: true,
+    },
+  });
 }
 function initCashHero(next) {
   let triggerElement = next.querySelector('[data-home-hero="trigger"]');
@@ -3233,6 +3460,58 @@ function initCashHero(next) {
       },
       0,
     );
+}
+function initBalanceCalculator(next) {
+  next = next || document;
+  const cashInput = next.querySelector('[data-saving="cash"]');
+  const yearsInput = next.querySelector('[data-saving="input"]');
+  const yearsDisplay = next.querySelector('[data-saving="years"]');
+
+  const rates = {
+    fruitful: 5,
+    apple: 4.25,
+    chase: 0.01,
+    national: 0.01,
+  };
+
+  function calculateBalance(cash, years, rate) {
+    return cash * Math.pow(1 + rate / 100, years);
+  }
+
+  function formatCurrency(value) {
+    return (
+      "$" +
+      value.toLocaleString(undefined, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      })
+    );
+  }
+
+  function updateBalances() {
+    const cash = parseFloat(cashInput.value) || 0;
+    const years = parseInt(yearsInput.value) || 1;
+
+    yearsDisplay.textContent = years;
+
+    for (const [key, rate] of Object.entries(rates)) {
+      const balance = calculateBalance(cash, years, rate);
+      const amountElement = document.querySelector(`[data-amount="${key}"]`);
+      if (amountElement) {
+        amountElement.textContent = formatCurrency(balance);
+      }
+    }
+  }
+
+  cashInput.placeholder = "5000";
+  cashInput.value = "5000";
+  yearsInput.value = "5";
+  yearsDisplay.textContent = yearsInput.value;
+
+  cashInput.addEventListener("input", updateBalances);
+  yearsInput.addEventListener("input", updateBalances);
+
+  updateBalances();
 }
 
 //
@@ -3296,8 +3575,9 @@ function initSaveInvest(next) {
   }, 800);
 }
 function initCashPage(next) {
-  initCashHero(next)
-  initHowItWorks(next)
+  initCashHero(next);
+  initHowItWorks(next);
+  initBalanceCalculator(next);
 }
 
 barba.hooks.after((data) => {
@@ -3422,7 +3702,7 @@ barba.init({
         transitionIn(next);
         initGeneral(next);
         //
-        initCashPage(next)
+        initCashPage(next);
       },
     },
   ],
