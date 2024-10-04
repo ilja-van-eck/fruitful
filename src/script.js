@@ -86,7 +86,7 @@ function transitionOut(current) {
   gsap.fromTo(
     pageOverlay,
     { opacity: 0 },
-    { opacity: 1, duration: 1.2, ease: "expo.inOut" },
+    { opacity: 1, duration: 1.2, ease: "expo.inOut" }
   );
 }
 function transitionIn(next, name) {
@@ -123,7 +123,7 @@ function transitionIn(next, name) {
   gsap.fromTo(
     pageOverlay,
     { opacity: 1 },
-    { opacity: 0, duration: 1.2, ease: "expo.inOut" },
+    { opacity: 0, duration: 1.2, ease: "expo.inOut" }
   );
   gsap.from(next, {
     y: prefersReducedMotion() ? 0 : "10vh",
@@ -142,7 +142,7 @@ function transitionIn(next, name) {
       onComplete: () => {
         gsap.set(loadWrap, { display: "none" });
       },
-    },
+    }
   );
   if (!prefersReducedMotion()) {
     gsap.from(headerFade, {
@@ -232,7 +232,7 @@ function initHomeLoader() {
         delay: 0.2,
         ease: "power3.in",
       },
-      "<",
+      "<"
     )
     .to(
       loadBg,
@@ -254,7 +254,7 @@ function initHomeLoader() {
           initHomeVideo();
         },
       },
-      4.3,
+      4.3
     )
     .from(
       main,
@@ -264,7 +264,7 @@ function initHomeLoader() {
         ease: "expo.inOut",
         clearProps: "all",
       },
-      "<",
+      "<"
     )
     .from(
       headerFade,
@@ -276,7 +276,7 @@ function initHomeLoader() {
         clearProps: "all",
         duration: 0.6,
       },
-      "<+=1",
+      "<+=1"
     );
   gsap.delayedCall(3, () => {
     tl.from(
@@ -289,7 +289,7 @@ function initHomeLoader() {
         duration: 0.6,
         clearProps: "all",
       },
-      ">-=1",
+      ">-=1"
     );
   });
 }
@@ -356,14 +356,14 @@ function initBurgerMenu() {
           borderRadius: "0vw 0vw 0vw 0vw",
           ease: "expo.inOut",
           duration: 1,
-        },
+        }
       )
       .to(
         logo,
         {
           color: "black",
         },
-        0,
+        0
       )
       .fromTo(
         logoPaths,
@@ -377,7 +377,7 @@ function initBurgerMenu() {
           stagger: 0.015,
           ease: "back.out(3)",
         },
-        0.4,
+        0.4
       )
       .to(
         navButton,
@@ -385,7 +385,7 @@ function initBurgerMenu() {
           autoAlpha: 0,
           yPercent: -50,
         },
-        0,
+        0
       )
       .to(button, { color: "black" }, 0)
       .to(lineCenter, { scaleX: 0, ease: "power3.out" }, 0)
@@ -402,7 +402,7 @@ function initBurgerMenu() {
           autoAlpha: 1,
           stagger: 0.05,
         },
-        0.6,
+        0.6
       )
       .fromTo(
         menuFade,
@@ -415,7 +415,7 @@ function initBurgerMenu() {
           autoAlpha: 1,
           stagger: 0.025,
         },
-        "<",
+        "<"
       );
   };
 
@@ -440,7 +440,7 @@ function initBurgerMenu() {
           autoAlpha: 0,
           stagger: { each: 0.025, from: "end" },
         },
-        "<",
+        "<"
       )
       .to(button, { color: logoColor }, 0)
       .to(lineCenter, { scaleX: 1, ease: "power3.out" }, 0)
@@ -454,14 +454,14 @@ function initBurgerMenu() {
           ease: "expo.inOut",
           duration: 0.8,
         },
-        0,
+        0
       )
       .to(
         logo,
         {
           color: logoColor,
         },
-        0.5,
+        0.5
       )
       .to(
         logoPaths,
@@ -471,7 +471,7 @@ function initBurgerMenu() {
           stagger: { each: 0.015, from: "end" },
           ease: "power3.out",
         },
-        0,
+        0
       )
       .to(
         navButton,
@@ -479,7 +479,7 @@ function initBurgerMenu() {
           autoAlpha: 1,
           yPercent: 0,
         },
-        "<",
+        "<"
       )
       .set(wrap, { display: "none" });
   };
@@ -533,7 +533,7 @@ function initNavScroll() {
         lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
       }
     },
-    { passive: true },
+    { passive: true }
   );
 }
 function initDocumentClick() {
@@ -624,7 +624,7 @@ function initCursorAndButtons(container) {
     if (Math.abs(speedY) > 0.2) {
       rotation = Math.max(
         Math.min(rotation + speedY * (rotationSensitivity * -1), 90),
-        -90,
+        -90
       );
     } else {
       rotation = lerp(rotation, 0, 0.06);
@@ -807,7 +807,7 @@ function setupTextTransitions(videoSelector, timestamps) {
       currentIndex = 0;
     } else {
       const nextIndex = timestamps.findIndex(
-        (time, index) => currentTime >= time && index > currentIndex,
+        (time, index) => currentTime >= time && index > currentIndex
       );
 
       if (nextIndex !== -1 && nextIndex !== currentIndex) {
@@ -839,7 +839,7 @@ function setupTextTransitions(videoSelector, timestamps) {
             y: "1em",
           });
         },
-      },
+      }
     );
     gsap.fromTo(
       texts[toIndex].querySelectorAll(".word"),
@@ -852,7 +852,7 @@ function setupTextTransitions(videoSelector, timestamps) {
         duration: duration,
         ease: "back.out(1.5)",
         onStart: () => gsap.set(texts[toIndex], { autoAlpha: 1 }),
-      },
+      }
     );
   }
 }
@@ -900,7 +900,11 @@ function initSaveCalculator() {
     }
     compTr.insertAdjacentHTML(
       "beforeend",
-      `<td>${comp.comparison}</td><td>${percentFormatter.format(comp.apy / 100)} APY</td><td data-apy="${comp.apy}">$${currencyFormatter.format((20000 * comp.apy) / 100)}</td>`,
+      `<td>${comp.comparison}</td><td>${percentFormatter.format(
+        comp.apy / 100
+      )} APY</td><td data-apy="${comp.apy}">$${currencyFormatter.format(
+        (20000 * comp.apy) / 100
+      )}</td>`
     );
     tableElement.appendChild(compTr);
   });
@@ -957,7 +961,7 @@ function initSaveCalculator() {
     input.setSelectionRange(caret_pos, caret_pos);
 
     const input_val_number = parseFloat(
-      input_val.replaceAll("$", "").replaceAll(",", ""),
+      input_val.replaceAll("$", "").replaceAll(",", "")
     );
     updateInterestEarnedPerYear(input_val_number);
     showHideGoodNews(input_val_number);
@@ -977,7 +981,7 @@ function initSaveCalculator() {
   }
 
   const interestCoversMembershipElement = document.getElementById(
-    "interestCoversMembership",
+    "interestCoversMembership"
   );
 
   function showHideGoodNews(input_val_number) {
@@ -1029,10 +1033,10 @@ function initInvestCalculator() {
     compTr.insertAdjacentHTML(
       "beforeend",
       `<td>${comp.comparison}</td><td>${percentFormatter.format(
-        comp.fee / 100,
+        comp.fee / 100
       )}</td><td data-fee="${comp.fee}">$${currencyFormatter.format(
-        tenYearFeeAmount(PLACEHOLDER_AMOUNT, comp.fee / 100),
-      )}</td>`,
+        tenYearFeeAmount(PLACEHOLDER_AMOUNT, comp.fee / 100)
+      )}</td>`
     );
     tableElement.appendChild(compTr);
   });
@@ -1091,7 +1095,7 @@ function initInvestCalculator() {
     input.setSelectionRange(caret_pos, caret_pos);
 
     const input_val_number = parseFloat(
-      input_val.replaceAll("$", "").replaceAll(",", ""),
+      input_val.replaceAll("$", "").replaceAll(",", "")
     );
     updateManagementFees(input_val_number);
   }
@@ -1202,7 +1206,7 @@ function initHeadlines(container) {
           duration: 0.5,
           ease: "back.out(3)",
           stagger: { amount: 0.25 },
-        },
+        }
       );
       createScrollTrigger(element, tl);
     });
@@ -1221,7 +1225,7 @@ function initHeadlines(container) {
         yPercent: 0,
         duration: 0.5,
         ease: "back.out(3)",
-      },
+      }
     );
     createScrollTrigger(element, tl);
   });
@@ -1438,7 +1442,7 @@ function initHomeHero(next) {
       {
         borderRadius: "0rem, 0rem, 0rem, 0rem",
       },
-      0,
+      0
     );
 
   tl.to(fern, { yPercent: -5, xPercent: -5 }, 0).to(orange, { yPercent: 5 }, 0);
@@ -1469,7 +1473,7 @@ function initGuidesOverlay(next) {
           ".overlay-inner",
           { yPercent: 20, opacity: 0 },
           { yPercent: 0, opacity: 1, duration: 0.6, ease: "back.out(2)" },
-          "<",
+          "<"
         )
         .fromTo(
           fade,
@@ -1483,7 +1487,7 @@ function initGuidesOverlay(next) {
             stagger: 0.05,
             duration: 0.45,
           },
-          "<+=0.1",
+          "<+=0.1"
         )
         .fromTo(
           tags,
@@ -1498,7 +1502,7 @@ function initGuidesOverlay(next) {
             duration: 0.45,
             ease: "back.out(2)",
           },
-          "<",
+          "<"
         );
 
       if (index > 5) {
@@ -1514,10 +1518,10 @@ function initGuidesOverlay(next) {
         overlayItems[nextIndex].getAttribute("data-overlay-name");
 
       const overlayPrevNameElement = next.querySelector(
-        "[data-overlay-prev-name]",
+        "[data-overlay-prev-name]"
       );
       const overlayNextNameElement = next.querySelector(
-        "[data-overlay-next-name]",
+        "[data-overlay-next-name]"
       );
 
       const video = activeItem.querySelector("video");
@@ -1549,13 +1553,13 @@ function initGuidesOverlay(next) {
         .fromTo(
           ".overlay-bg",
           { opacity: 1 },
-          { opacity: 0, duration: 0.3, ease: "power3" },
+          { opacity: 0, duration: 0.3, ease: "power3" }
         )
         .fromTo(
           ".overlay-inner",
           { yPercent: 0, opacity: 1 },
           { yPercent: 10, opacity: 0, duration: 0.3, ease: "power3" },
-          0,
+          0
         )
         .set(overlayWrapper, { display: "none" })
         .then(() => {
@@ -1572,7 +1576,7 @@ function initGuidesOverlay(next) {
 
   function updateActiveItem(newIndex, direction) {
     const currentActiveIndex = Array.from(overlayItems).findIndex((item) =>
-      item.classList.contains("is--active"),
+      item.classList.contains("is--active")
     );
     const newActiveItem = overlayItems[newIndex];
     const currentActiveItem = overlayItems[currentActiveIndex];
@@ -1603,7 +1607,7 @@ function initGuidesOverlay(next) {
           duration: 0.3,
           ease: "power3",
         },
-        "<",
+        "<"
       );
       tlOut.to(
         currentActiveItem.querySelectorAll("[data-overlay-tag]"),
@@ -1614,7 +1618,7 @@ function initGuidesOverlay(next) {
           duration: 0.3,
           ease: "power3",
         },
-        "<",
+        "<"
       );
     }
 
@@ -1643,7 +1647,7 @@ function initGuidesOverlay(next) {
             y: "0rem",
             stagger: 0.05,
             duration: 0.45,
-          },
+          }
         )
         .fromTo(
           newActiveItem.querySelectorAll("[data-overlay-tag]"),
@@ -1658,7 +1662,7 @@ function initGuidesOverlay(next) {
             duration: 0.45,
             ease: "back.out(2)",
           },
-          "<",
+          "<"
         );
     }
 
@@ -1681,7 +1685,7 @@ function initGuidesOverlay(next) {
 
   overlayNextButton.addEventListener("click", () => {
     let currentIndex = Array.from(overlayItems).findIndex((item) =>
-      item.classList.contains("is--active"),
+      item.classList.contains("is--active")
     );
     let newIndex =
       currentIndex === overlayItems.length - 1 ? 0 : currentIndex + 1;
@@ -1690,7 +1694,7 @@ function initGuidesOverlay(next) {
 
   overlayPrevButton.addEventListener("click", () => {
     let currentIndex = Array.from(overlayItems).findIndex((item) =>
-      item.classList.contains("is--active"),
+      item.classList.contains("is--active")
     );
     let newIndex =
       currentIndex === 0 ? overlayItems.length - 1 : currentIndex - 1;
@@ -1716,7 +1720,7 @@ function initMemberStories() {
           opacity: 1,
           duration: 0.6,
           ease: "power3.out",
-        },
+        }
       )
       .fromTo(
         ".modal-inner",
@@ -1730,7 +1734,7 @@ function initMemberStories() {
           duration: 0.6,
           ease: "power3.out",
         },
-        0,
+        0
       );
 
     const videoElement = document.querySelector(".modal-w video");
@@ -1865,13 +1869,13 @@ function initHomeIntro() {
       introSpacerBottom,
       { width: isDesktop ? "0.5em" : "0em" },
       { width: isDesktop ? "2.8em" : "0em", duration: 1 },
-      0,
+      0
     )
     .fromTo(
       introSpacerTop,
       { width: isDesktop ? "0.5em" : "0em" },
       { width: isDesktop ? "2em" : "0em", duration: 1 },
-      0,
+      0
     )
     .from(
       introImageTop,
@@ -1884,7 +1888,7 @@ function initHomeIntro() {
           });
         },
       },
-      0,
+      0
     )
     .from(
       introImageBottom,
@@ -1897,7 +1901,7 @@ function initHomeIntro() {
           });
         },
       },
-      0.1,
+      0.1
     );
 }
 function initBushCTA(next) {
@@ -1932,13 +1936,13 @@ function initBushCTA(next) {
     .fromTo(
       butterflyLeft,
       { y: "5em", xPercent: -100 },
-      { y: "-1em", xPercent: 25 },
+      { y: "-1em", xPercent: 25 }
     )
     .fromTo(
       butterflyRight,
       { y: "10em", xPercent: 100 },
       { y: "-4em", xPercent: -100 },
-      "<",
+      "<"
     );
 
   const introTl = gsap.timeline({
@@ -2051,7 +2055,7 @@ function createCardWrapTimeline(cardWrap, rotation) {
     defaults: {
       ease: CustomEase.create(
         "guides-bounce",
-        "M0,0 C0.084,0.61 0.202,0.898 0.327,0.977 0.555,1.121 0.661,0.92 1,1 ",
+        "M0,0 C0.084,0.61 0.202,0.898 0.327,0.977 0.555,1.121 0.661,0.92 1,1 "
       ),
       duration: 1,
     },
@@ -2073,7 +2077,7 @@ function createCardWrapTimeline(cardWrap, rotation) {
         gsap.set(cardWrap.querySelectorAll("[data-card]"), {
           pointerEvents: "auto",
         }),
-    },
+    }
   );
 
   return tl;
@@ -2116,7 +2120,7 @@ function initCardsHover() {
         duration: 0.6,
         ease: CustomEase.create(
           "guides-bounce",
-          "M0,0 C0.084,0.61 0.202,0.898 0.327,0.977 0.555,1.121 0.661,0.92 1,1 ",
+          "M0,0 C0.084,0.61 0.202,0.898 0.327,0.977 0.555,1.121 0.661,0.92 1,1 "
         ),
       });
       if (!supportsTouch()) {
@@ -2144,7 +2148,7 @@ function initCardsHover() {
         duration: 0.6,
         ease: CustomEase.create(
           "guides-bounce",
-          "M0,0 C0.084,0.61 0.202,0.898 0.327,0.977 0.555,1.121 0.661,0.92 1,1 ",
+          "M0,0 C0.084,0.61 0.202,0.898 0.327,0.977 0.555,1.121 0.661,0.92 1,1 "
         ),
       });
       if (!supportsTouch()) {
@@ -2198,7 +2202,7 @@ function initHomeParallax() {
         yPercent: 18,
         duration: 1,
       },
-      0,
+      0
     )
     .to(
       bLeft,
@@ -2208,7 +2212,7 @@ function initHomeParallax() {
         rotate: -3,
         duration: 1,
       },
-      0,
+      0
     )
     .to(
       bRight,
@@ -2218,7 +2222,7 @@ function initHomeParallax() {
         rotate: 4,
         duration: 1,
       },
-      0,
+      0
     )
     .from(
       textWrapper,
@@ -2226,7 +2230,7 @@ function initHomeParallax() {
         y: isMobileLandscape ? "-180vw" : "-120vw",
         duration: 0.7,
       },
-      0.3,
+      0.3
     )
     .fromTo(
       heading,
@@ -2237,7 +2241,7 @@ function initHomeParallax() {
         fontSize: isMobile ? "2em" : "3.25em",
         duration: 0.7,
       },
-      "<",
+      "<"
     )
     .from(
       textWrapper,
@@ -2245,7 +2249,7 @@ function initHomeParallax() {
         color: "#fff",
         duration: 0.2,
       },
-      0.8,
+      0.8
     )
     .fromTo(
       heading,
@@ -2256,7 +2260,7 @@ function initHomeParallax() {
         lineHeight: "1.1",
         duration: 0.2,
       },
-      0.8,
+      0.8
     )
     .from(
       paragraph,
@@ -2265,7 +2269,7 @@ function initHomeParallax() {
         yPercent: 100,
         duration: 0.2,
       },
-      0.8,
+      0.8
     );
 }
 function initStackingNav() {
@@ -2292,12 +2296,12 @@ function initStackingNav() {
         {
           scale: 0.85,
           filter: prefersReducedMotion() ? "blur(0px)" : "blur(8px)",
-        },
+        }
       )
       .fromTo(
         triggerElement,
         { boxShadow: "0px 0px 0px 0px rgba(0, 0, 0, 0.02)" },
-        { boxShadow: "0px -49px 49px 0px rgba(0, 0, 0, 0.02)" },
+        { boxShadow: "0px -49px 49px 0px rgba(0, 0, 0, 0.02)" }
       );
   });
 
@@ -2380,7 +2384,7 @@ function initStackingNav() {
           ease: "back.out(3)",
           duration: 0.45,
         },
-        0,
+        0
       );
   };
   let hideStackingNav = () => {
@@ -2399,7 +2403,7 @@ function initStackingNav() {
           width: "0%",
           duration: 0.4,
         },
-        0.1,
+        0.1
       )
       .set(".stacking-cards__nav", { display: "none" });
   };
@@ -2527,7 +2531,7 @@ function initPricingScroll() {
         y: "-20em",
         ease: "none",
       },
-      0,
+      0
     )
     .fromTo(
       heading,
@@ -2538,7 +2542,7 @@ function initPricingScroll() {
         fontSize: "2.5em",
         ease: "none",
       },
-      0,
+      0
     )
     .fromTo(
       eyebrow,
@@ -2549,7 +2553,7 @@ function initPricingScroll() {
         fontSize: "0.75rem",
         ease: "none",
       },
-      0,
+      0
     );
 }
 function initPriceCards(next) {
@@ -2600,7 +2604,7 @@ function initPriceCards(next) {
         duration: 0.8,
         ease: "back.out(1.8)",
       },
-      0,
+      0
     )
     .from(
       center,
@@ -2615,7 +2619,7 @@ function initPriceCards(next) {
           });
         },
       },
-      0,
+      0
     );
 
   // HOVERING
@@ -2660,7 +2664,7 @@ function initPriceCards(next) {
         duration: 0.5,
         ease: "back.inOut(2)",
       },
-      0,
+      0
     )
     .to(
       ".p-card__sign.offset",
@@ -2669,7 +2673,7 @@ function initPriceCards(next) {
         duration: 0.5,
         ease: "back.inOut(2)",
       },
-      0,
+      0
     )
     .to(
       sub,
@@ -2678,7 +2682,7 @@ function initPriceCards(next) {
         duration: 0.5,
         ease: "back.inOut(2)",
       },
-      0,
+      0
     );
 
   solo.addEventListener("click", () => {
@@ -2763,7 +2767,7 @@ function toggleTextBlocks(next) {
       const progress = self.progress;
       const index = Math.min(
         Math.floor(progress * blocks.length),
-        blocks.length - 1,
+        blocks.length - 1
       );
       blocks.forEach((block) => block.classList.remove("active"));
       dots.forEach((dot) => dot.classList.remove("active"));
@@ -2822,7 +2826,7 @@ function initGuideCardsHover() {
         duration: 0.6,
         ease: CustomEase.create(
           "guides-bounce",
-          "M0,0 C0.084,0.61 0.202,0.898 0.327,0.977 0.555,1.121 0.661,0.92 1,1 ",
+          "M0,0 C0.084,0.61 0.202,0.898 0.327,0.977 0.555,1.121 0.661,0.92 1,1 "
         ),
       });
     });
@@ -2835,7 +2839,7 @@ function initGuideCardsHover() {
         duration: 0.6,
         ease: CustomEase.create(
           "guides-bounce",
-          "M0,0 C0.084,0.61 0.202,0.898 0.327,0.977 0.555,1.121 0.661,0.92 1,1 ",
+          "M0,0 C0.084,0.61 0.202,0.898 0.327,0.977 0.555,1.121 0.661,0.92 1,1 "
         ),
       });
     });
@@ -2936,12 +2940,16 @@ function initVideoScroll(next) {
   });
   tl.from(wrap, { scale: 0.8 }).from(img, { scale: 1.1 }, 0);
 }
-function initInvestCards() {
-  let wrap = document.querySelector(".card-c");
+function initInvestCards(next) {
+  if (!next) {
+    next = document.querySelector('[data-barba="container"]');
+  }
+  let wrap = next.querySelector(".card-c");
   if (!wrap) return;
   let left = wrap.querySelector(".card-w.is--left");
   let right = wrap.querySelector(".card-w.is--right");
   let center = wrap.querySelector(".card-w.is--center");
+  let images = wrap.querySelectorAll("img");
 
   gsap.delayedCall(2, () => {
     ScrollTrigger.refresh();
@@ -2959,6 +2967,7 @@ function initInvestCards() {
       xPercent: 80,
       yPercent: 20,
       rotate: 6,
+      autoAlpha: 0,
       duration: 0.8,
       ease: "back.out(1.8)",
     })
@@ -2968,20 +2977,32 @@ function initInvestCards() {
         xPercent: -80,
         yPercent: 20,
         rotate: -6,
+        autoAlpha: 0,
         duration: 0.8,
         ease: "back.out(1.8)",
       },
-      0,
+      0
     )
     .from(
       center,
       {
         yPercent: 10,
         scale: 0.85,
+        autoAlpha: 0,
         duration: 0.8,
         ease: "back.out(1.5)",
       },
-      0,
+      0
+    )
+    .from(
+      images,
+      {
+        autoAlpha: 0,
+        duration: 0.5,
+        scale: 0.8,
+        ease: "back.out(1.5)",
+      },
+      0
     );
 }
 function initScrollingTitles(next) {
@@ -3001,7 +3022,7 @@ function initScrollingTitles(next) {
       const progress = Math.max(0, self.progress - offset);
       const index = Math.min(
         Math.floor((progress / (1 - offset)) * headings.length),
-        headings.length - 1,
+        headings.length - 1
       );
       headings.forEach((heading) => heading.classList.remove("is--active"));
       if (index < headings.length) {
@@ -3073,7 +3094,7 @@ function initInvestCharts(next) {
 
     const aggregateBond = container.querySelector('[data-bar="aggregate"]');
     const internationalBond = container.querySelector(
-      '[data-bar="international-bonds"]',
+      '[data-bar="international-bonds"]'
     );
 
     if (currentPortfolio === "core") {
@@ -3159,7 +3180,7 @@ function initHowItWorks(next) {
         fontSize: "3.2em",
         opacity: isMobile ? 0 : 1,
         y: "0vh",
-      },
+      }
     )
     .fromTo(
       floatingIcons,
@@ -3180,7 +3201,7 @@ function initHowItWorks(next) {
         scale: 1,
         duration: 0.95,
       },
-      0.05,
+      0.05
     );
 
   let scrollTl = gsap.timeline({
@@ -3205,7 +3226,7 @@ function initHowItWorks(next) {
       {
         strokeDashoffset: 0,
         stagger: 0.1,
-      },
+      }
     )
     .fromTo(
       percentages,
@@ -3217,7 +3238,7 @@ function initHowItWorks(next) {
         stagger: 0.2,
         duration: 0.2,
       },
-      0.5,
+      0.5
     )
     .fromTo(
       cards,
@@ -3231,19 +3252,19 @@ function initHowItWorks(next) {
         stagger: 0.15,
         duration: 0.2,
       },
-      0.6,
+      0.6
     )
     .fromTo(
       textCardOne,
       { yPercent: 0, autoAlpha: 1 },
       { yPercent: -25, autoAlpha: 0, duration: 0.2 },
-      0.6,
+      0.6
     )
     .fromTo(
       textCardTwo,
       { yPercent: 25, autoAlpha: 0 },
       { yPercent: 0, autoAlpha: 1, duration: 0.2 },
-      0.7,
+      0.7
     )
     .set(sunraySection, { display: "flex" }, 1.5)
     .to(topContent, { opacity: 0, duration: 0.4 })
@@ -3251,13 +3272,13 @@ function initHowItWorks(next) {
     .from(
       sunElements,
       { scale: 0.3, opacity: 0, duration: 0.4, stagger: 0.1 },
-      "<-=0.2",
+      "<-=0.2"
     )
     .from(sunIcons, { z: -2000, opacity: 0, stagger: 0.01, duration: 0.7 }, "<")
     .from(
       sunText,
       { y: "2rem", autoAlpha: 0, duration: 0.2, stagger: 0.05 },
-      "<",
+      "<"
     );
   //.to(sunraySection, { opacity: 1, duration: 0.2 })
 
@@ -3273,7 +3294,7 @@ function initHowItWorks(next) {
     secondScrollContainer.querySelectorAll(".fund-percent");
   let secondCards = secondScrollContainer.querySelectorAll("[data-fund-card]");
   let cashbackPills = secondScrollContainer.querySelectorAll(
-    "[data-fund-cashback]",
+    "[data-fund-cashback]"
   );
 
   let anxietyLeaveTl = gsap.timeline({
@@ -3307,13 +3328,13 @@ function initHowItWorks(next) {
         stagger: 0.05,
         delay: isMobile ? 0.2 : 0,
       },
-      "<",
+      "<"
     )
     .to(sunrays, { scaleX: 0, duration: 1.2 }, "<")
     .to(
       sunElements,
       { scale: 0.3, opacity: 0, duration: 0.4, stagger: 0.1 },
-      "<",
+      "<"
     )
     .fromTo(
       secondCards,
@@ -3327,13 +3348,13 @@ function initHowItWorks(next) {
         stagger: 0.15,
         duration: 0.3,
       },
-      ">-=0.1",
+      ">-=0.1"
     )
     .fromTo(
       secondSectionTexts[0],
       { autoAlpha: 0, yPercent: 25 },
       { autoAlpha: 1, yPercent: 0, duration: 0.5 },
-      "<",
+      "<"
     );
 
   let lastCashScroll = gsap.timeline({
@@ -3361,7 +3382,7 @@ function initHowItWorks(next) {
         stagger: 0.1,
         duration: 0.6,
       },
-      "<+=0.1",
+      "<+=0.1"
     )
     .fromTo(
       secondPercentages,
@@ -3373,35 +3394,35 @@ function initHowItWorks(next) {
         stagger: 0.1,
         duration: 0.2,
       },
-      "<+=0.2",
+      "<+=0.2"
     )
     .to(
       secondSectionTexts[0],
       { autoAlpha: 0, yPercent: -25, duration: 0.3 },
-      "<-=50%",
+      "<-=50%"
     )
     .fromTo(
       secondSectionTexts[1],
       { autoAlpha: 0, yPercent: 25 },
       { autoAlpha: 1, yPercent: 0, duration: 0.3 },
-      "<+=0.2",
+      "<+=0.2"
     )
     .set(".fund-list.is--top", { display: "flex" }, "<")
     .to(
       secondCards,
       { x: "2rem", autoAlpha: 0, stagger: 0.1, duration: 0.3 },
-      "<",
+      "<"
     )
     .fromTo(
       "[data-cashback-card]",
       { x: "-2rem", autoAlpha: 0 },
       { x: "0rem", autoAlpha: 1, stagger: 0.1, duration: 0.3 },
-      "<+=0.2",
+      "<+=0.2"
     )
     .to(
       secondPercentages,
       { scale: 0, duration: 0.2, stagger: { each: 0.05, from: "end" } },
-      ">+=0.5",
+      ">+=0.5"
     )
     .to(
       secondPaths,
@@ -3410,19 +3431,19 @@ function initHowItWorks(next) {
         duration: 0.2,
         stagger: { each: 0.05, from: "end" },
       },
-      "<",
+      "<"
     )
     .to(secondTopCard, { x: "2rem", autoAlpha: 0, duration: 0.2 }, "<+=0.16")
     .to(
       secondSectionTexts[1],
       { autoAlpha: 0, yPercent: -25, duration: 0.3 },
-      "<+=0.5",
+      "<+=0.5"
     )
     .fromTo(
       secondSectionTexts[2],
       { autoAlpha: 0, yPercent: 25 },
       { autoAlpha: 1, yPercent: 0, duration: 0.3 },
-      "<+=0.2",
+      "<+=0.2"
     )
     .from(cashbackPills, { scale: 0, duration: 0.2, stagger: 0.05 }, ">-=0.1")
 
@@ -3458,7 +3479,7 @@ function initCashHero(next) {
       {
         borderRadius: "0rem, 0rem, 0rem, 0rem",
       },
-      0,
+      0
     );
 }
 function initBalanceCalculator(next) {
@@ -3514,6 +3535,339 @@ function initBalanceCalculator(next) {
   updateBalances();
 }
 
+function initValueContainer(next) {
+  next = next || document;
+  let container = next.querySelector("[data-value-container]");
+  let toggles = container.querySelectorAll("[data-type]");
+  let typeSolo = container.querySelector('[data-type="solo"]');
+  let typeJoint = container.querySelector('[data-type="joint"]');
+  let frequencySelect = container.querySelector("#membership-type");
+  let inputCash = container.querySelector("#member-cash");
+  let inputSpend = container.querySelector("#member-spend");
+  let inputInvest = container.querySelector("#member-invest");
+  let inputYear = container.querySelector("#year-select");
+  let selectInputs = container.querySelectorAll("[data-select]");
+  let memberCost = container.querySelector("[data-membership-cost]");
+  let memberValue = container.querySelector("[data-membership-value]");
+  let amountOutputs = container.querySelectorAll("[data-amount]");
+
+  const membershipCosts = {
+    solo: {
+      monthly: 1176,
+      quarterly: 1100,
+      annual: 998,
+    },
+    joint: {
+      monthly: 1776,
+      quarterly: 1660,
+      annual: 1498,
+    },
+  };
+
+  const fixedVariables = {
+    fruitfulCashRate: 0.05,
+    fruitfulCashBackRate: 0.02,
+    averageInvReturns: 0.08,
+  };
+
+  const descriptions = {
+    guide: {
+      option1: `A <a class="link" target="_blank" href="https://corporate.vanguard.com/content/corporatesite/us/en/corp/articles/quantifying-evolution-advice-and-value-investors.html/">Vanguard study</a> in 2022 found that financial advisors can add about 3% in net returns annually to a client's portfolio through a combo of better allocating money, reducing costs, and modifying behaviors.`,
+      option2: `This is the cost of traditional advisory firms sourced from <a class="link" target="_blank" href="https://www.kitces.com/kitces-report-how-actual-financial-planners-do-financial-planning/">The Kitces Report, Volume 2, 2022, Figure 61. Distribution Of Typical Annual Retainer Fee</a>.`,
+    },
+    invest: {
+      option1: `The typical cost of a financial advisor working within a standard assets under management (AUM) fee-based model as referenced from the <a class="link" target="_blank" href="https://www.nytimes.com/2023/01/06/business/retirement-planning-advice.html">New York Times</a>.`,
+      option2: `The standard managament fee on automated investing potrfolios at prominent robo-investing platforms like <a class="link" target="_blank" href="https://www.wealthfront.com/investing">Wealthfront</a> or <a class="link" target="_blank" href="https://www.betterment.com/investing">Betterment</a>.`,
+    },
+    save: {
+      option1: `Posted to the FDIC.gov website as the average national deposit rate on checking accounts in the <a class="link" target="_blank" href="https://www.fdic.gov/resources/bankers/national-rates/index.html#footnote">second to top left cell of the rate table</a>, as of July 18, 2024.`,
+      option2: `Posted to the FDIC.gov website as the average national deposit rate on savings in the <a class="link" target="_blank" href="https://www.fdic.gov/resources/bankers/national-rates/index.html#footnote">top left cell of the rate table</a>, as of July 18, 2024.`,
+      option3: `As quoted on September 2, 2024 on <a class="link" target="_blank" href="https://www.chase.com/personal/savings/savings-account/interest-rates">Chase.com</a>.`,
+      option4: `As quoted on September 2, 2024 on <a class="link" target="_blank" href="https://learn.applecard.apple/savings?itscg=20201&itsct=crd-sem-161058037174-705453984897&mttnsubad=crd-sem-161058037174-705453984897&mttnsubkw=kwd-337868712633&mttnsubplmnt=c_adext:&mttnagencyid=c1a&mttncc=US&mttnpid=Google%20AdWords&cid=apy-318-100000070000-400000000000041">Apple.com</a>.`,
+    },
+    track: {
+      option1: `The approximate average cost of well-regarded financial aggregator platforms like Copilot, Monarch, and YNAB as quoted in the <a class="link" target="_blank" href="https://www.nytimes.com/2023/11/11/your-money/mint-budgeting-app-alternatives.html">New York Times</a>.`,
+    },
+  };
+
+  function calculateFV(rate, periods, payment, presentValue) {
+    return (
+      presentValue * Math.pow(1 + rate, periods) +
+      payment * ((Math.pow(1 + rate, periods) - 1) / rate)
+    );
+  }
+
+  function calculateTrack() {
+    let yearValue = parseInt(inputYear.value) || 1;
+
+    selectInputs.forEach((select) => {
+      if (select.getAttribute("data-select") === "track") {
+        let selectedOption = select.options[select.selectedIndex];
+        let value = selectedOption.value.replace(/[$,]/g, "");
+        value = parseFloat(value) || 0;
+        let row = select.closest(".value-container__row");
+        let amountElement = row.querySelector("[data-amount]");
+
+        let calculatedValue = value * 12 * yearValue;
+
+        if (amountElement) {
+          amountElement.textContent = calculatedValue.toLocaleString("en-US");
+        }
+      }
+    });
+  }
+
+  function calculateSpend() {
+    let yearValue = parseInt(inputYear.value) || 1;
+    let spendValue = parseFloat(inputSpend.value) || 2000;
+
+    selectInputs.forEach((select) => {
+      if (select.getAttribute("data-select") === "spend") {
+        let row = select.closest(".value-container__row");
+        let amountElement = row.querySelector("[data-amount]");
+
+        let calculatedValue =
+          spendValue * fixedVariables.fruitfulCashBackRate * 12 * yearValue;
+
+        if (amountElement) {
+          amountElement.textContent = calculatedValue.toLocaleString("en-US");
+        }
+      }
+    });
+  }
+
+  function calculateSave() {
+    let yearValue = parseInt(inputYear.value) || 1;
+    let cashValue = parseFloat(inputCash.value) || 25000;
+
+    selectInputs.forEach((select) => {
+      if (select.getAttribute("data-select") === "save") {
+        let row = select.closest(".value-container__row");
+        let amountElement = row.querySelector("[data-amount]");
+
+        let selectedOption = select.options[select.selectedIndex];
+        let saveRate = selectedOption.value.replace(/[$,]/g, "");
+        saveRate = parseFloat(saveRate) || 0;
+
+        let fvFruitfulCash = calculateFV(
+          fixedVariables.fruitfulCashRate,
+          yearValue,
+          0,
+          -cashValue
+        );
+
+        let fvSaveOption = calculateFV(
+          saveRate / 100,
+          yearValue,
+          0,
+          -cashValue
+        );
+
+        let calculatedValue = Math.abs(fvFruitfulCash - fvSaveOption);
+        calculatedValue = Math.round(calculatedValue);
+
+        if (amountElement) {
+          amountElement.textContent = calculatedValue.toLocaleString("en-US");
+        }
+      }
+    });
+  }
+
+  function calculateInvest() {
+    let yearValue = parseInt(inputYear.value) || 1;
+    let investValue = parseFloat(inputInvest.value) || 40000;
+
+    selectInputs.forEach((select) => {
+      if (select.getAttribute("data-select") === "invest") {
+        let row = select.closest(".value-container__row");
+        let amountElement = row.querySelector("[data-amount]");
+
+        let selectedOption = select.options[select.selectedIndex];
+        let investRate = selectedOption.value.replace(/[$,]/g, "");
+        investRate = parseFloat(investRate) || 0;
+
+        let fvFruitfulCash = calculateFV(
+          fixedVariables.averageInvReturns,
+          yearValue,
+          0,
+          -investValue
+        );
+
+        let rate = fixedVariables.averageInvReturns - investRate / 100;
+        let investOption = calculateFV(rate, yearValue, 0, -investValue);
+
+        let calculatedValue = Math.abs(fvFruitfulCash - investOption);
+        calculatedValue = Math.round(calculatedValue);
+
+        if (amountElement) {
+          amountElement.textContent = calculatedValue.toLocaleString("en-US");
+        }
+      }
+    });
+  }
+
+  function calculateGuide() {
+    let yearValue = parseInt(inputYear.value) || 1;
+    let investValue = parseFloat(inputInvest.value) || 40000;
+    let cashValue = parseFloat(inputCash.value) || 25000;
+
+    selectInputs.forEach((select) => {
+      if (select.getAttribute("data-select") === "guide") {
+        let row = select.closest(".value-container__row");
+        let amountElement = row.querySelector("[data-amount]");
+
+        let selectedOption = select.options[select.selectedIndex];
+        let guideRate = selectedOption.value.replace(/[$,]/g, "");
+
+        if (selectedOption.value.includes("$")) {
+          guideRate = parseFloat(guideRate) || 0;
+          let calculatedValue = guideRate * yearValue;
+          calculatedValue = Math.round(calculatedValue);
+
+          if (amountElement) {
+            amountElement.textContent = calculatedValue.toLocaleString("en-US");
+          }
+        } else {
+          guideRate = parseFloat(guideRate) || 0;
+
+          let fvFruitfulCash = calculateFV(
+            fixedVariables.averageInvReturns,
+            yearValue,
+            0,
+            -investValue - cashValue
+          );
+
+          let rate = fixedVariables.averageInvReturns - guideRate / 100;
+          let investOption = calculateFV(
+            rate,
+            yearValue,
+            0,
+            -investValue - cashValue
+          );
+
+          let calculatedValue = Math.abs(fvFruitfulCash - investOption);
+          calculatedValue = Math.round(calculatedValue);
+
+          if (amountElement) {
+            amountElement.textContent = calculatedValue.toLocaleString("en-US");
+          }
+        }
+      }
+    });
+  }
+
+  function updateMembershipCost() {
+    let activeType = container.querySelector("[data-type].is--active");
+    let type = activeType ? activeType.getAttribute("data-type") : "solo";
+    let frequency = frequencySelect.value;
+    let baseCost = membershipCosts[type][frequency] || 0;
+    let yearValue = parseInt(inputYear.value) || 1;
+    let finalCost = baseCost * yearValue;
+    memberCost.textContent = finalCost.toLocaleString("en-US");
+  }
+
+  function updateMembershipValue() {
+    let totalValue = 0;
+
+    amountOutputs.forEach((amountElement) => {
+      let amountType = amountElement.getAttribute("data-amount");
+      if (amountType === "invest") {
+        return;
+      }
+      let amountValue =
+        parseInt(amountElement.textContent.replace(/,/g, ""), 10) || 0;
+      totalValue += amountValue;
+    });
+    memberValue.textContent = totalValue.toLocaleString("en-US");
+  }
+
+  inputYear.addEventListener("change", () => {
+    updateMembershipCost();
+    calculateTrack();
+    calculateSpend();
+    calculateSave();
+    calculateInvest();
+    calculateGuide();
+    updateMembershipValue();
+  });
+
+  inputCash.addEventListener("input", () => {
+    calculateSave();
+    calculateGuide();
+    updateMembershipValue();
+  });
+
+  inputInvest.addEventListener("input", () => {
+    calculateInvest();
+    calculateGuide();
+    updateMembershipValue();
+  });
+
+  inputSpend.addEventListener("input", () => {
+    calculateSpend();
+    updateMembershipValue();
+  });
+
+  frequencySelect.addEventListener("change", updateMembershipCost);
+
+  toggles.forEach((toggle) => {
+    toggle.addEventListener("click", () => {
+      toggles.forEach((toggle) => {
+        toggle.classList.toggle("is--active");
+      });
+      updateMembershipCost();
+    });
+  });
+
+  selectInputs.forEach((select) => {
+    select.addEventListener("change", () => {
+      let selectedOption = select.options[select.selectedIndex];
+      let value = parseFloat(selectedOption.value) || 0;
+      let displayValue = selectedOption.value;
+      let row = select.closest(".value-container__row");
+      let rateElement = row.querySelector("[data-rate]");
+      let tooltipElement = row.querySelector("[data-tooltip]");
+
+      if (select.getAttribute("data-select") === "track") {
+        calculateTrack();
+      } else if (select.getAttribute("data-select") === "spend") {
+        calculateSpend();
+      } else if (select.getAttribute("data-select") === "save") {
+        calculateSave();
+      } else if (select.getAttribute("data-select") === "invest") {
+        calculateInvest();
+      } else if (select.getAttribute("data-select") === "guide") {
+        calculateGuide();
+      }
+
+      if (rateElement) {
+        rateElement.textContent = displayValue;
+      }
+
+      let optionIndex = selectedOption.index + 1;
+      let selectType = select.getAttribute("data-select");
+
+      if (
+        descriptions[selectType] &&
+        descriptions[selectType][`option${optionIndex}`]
+      ) {
+        tooltipElement.innerHTML =
+          descriptions[selectType][`option${optionIndex}`];
+      }
+
+      updateMembershipValue();
+    });
+  });
+
+  updateMembershipCost();
+  calculateTrack();
+  calculateSpend();
+  calculateSave();
+  calculateInvest();
+  calculateGuide();
+  updateMembershipValue();
+}
+
 //
 //
 // INIT
@@ -3567,7 +3921,7 @@ function initGuidesPage(next) {
 function initSaveInvest(next) {
   initColorChanges();
   initVideoScroll(next);
-  initInvestCards();
+  initInvestCards(next);
   initScrollingTitles(next);
   initStackSaveAnimations(next);
   setTimeout(() => {
@@ -3606,7 +3960,7 @@ barba.hooks.enter((data) => {
 });
 
 barba.init({
-  //debug: true,
+  debug: true,
   preventRunning: true,
   prevent: function ({ el }) {
     return el.hasAttribute("data-barba-prevent");
@@ -3626,7 +3980,7 @@ barba.init({
             borderRadius: "0vw 0vw 0px 0px",
             duration: 1.2,
             ease: "expo.inOut",
-          },
+          }
         );
       },
     },
@@ -3703,6 +4057,32 @@ barba.init({
         initGeneral(next);
         //
         initCashPage(next);
+      },
+    },
+    {
+      namespace: "member-value",
+      afterEnter(data) {
+        let next = data.next.container;
+        transitionIn(next);
+        initGeneral(next);
+        initValueContainer(next);
+      },
+    },
+    {
+      namespace: "track",
+      afterEnter(data) {
+        let next = data.next.container;
+        transitionIn(next);
+        initGeneral(next);
+        initInvestCards(next);
+      },
+    },
+    {
+      namespace: "default",
+      afterEnter(data) {
+        let next = data.next.container;
+        transitionIn(next);
+        initGeneral(next);
       },
     },
   ],
