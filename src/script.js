@@ -495,9 +495,11 @@ function initNavScroll() {
 
   let ddToggle = document.querySelector(".dd-toggle");
   if (!dropdownClick) {
-    ddToggle.addEventListener("click", function () {
-      dropdownOpen = !dropdownOpen;
-    });
+    if (ddToggle) {
+      ddToggle.addEventListener("click", function () {
+        dropdownOpen = !dropdownOpen;
+      });
+    }
   }
 
   window.addEventListener(
@@ -3490,12 +3492,15 @@ function initBalanceCalculator(next) {
 
   const rates = {
     fruitful: 5,
-    apple: 4.25,
+    apple: 4.4,
     chase: 0.01,
-    national: 0.01,
+    national: 0.0046,
   };
 
-  function calculateBalance(cash, years, rate) {
+  function calculateBalance(cash, years, rate, isDailyCompounded = false) {
+    if (isDailyCompounded) {
+      return cash * Math.pow(1 + rate / 366, 366 * years);
+    }
     return cash * Math.pow(1 + rate / 100, years);
   }
 
@@ -3516,7 +3521,9 @@ function initBalanceCalculator(next) {
     yearsDisplay.textContent = years;
 
     for (const [key, rate] of Object.entries(rates)) {
-      const balance = calculateBalance(cash, years, rate);
+      const isDailyCompounded = key === "national";
+      let balance = calculateBalance(cash, years, rate, isDailyCompounded);
+      balance = balance - cash;
       const amountElement = document.querySelector(`[data-amount="${key}"]`);
       if (amountElement) {
         amountElement.textContent = formatCurrency(balance);
