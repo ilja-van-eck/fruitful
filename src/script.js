@@ -3494,7 +3494,7 @@ function initBalanceCalculator(next) {
     fruitful: 5,
     apple: 4.4,
     chase: 0.01,
-    national: 0.0046,
+    national: 0.0043,
   };
 
   function calculateBalance(cash, years, rate, isDailyCompounded = false) {
